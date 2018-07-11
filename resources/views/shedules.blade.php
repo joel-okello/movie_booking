@@ -24,7 +24,7 @@
   </thead>
   <tbody>
     <tr>
-      <th scope="row" rowspan="7">Monday</th>
+      <th scope="row" rowspan="3">Monday</th>
       <td>Museveni Must Leave, Part 3</td>
       <td>10:00 am</td>
       <td> 10,000/=</td>
@@ -69,6 +69,8 @@
     </tr>
 
     <tr>
+
+      <td><input type="text" name="date" id="date"></td>
        <td><select class="js-example-basic-single" name="state">
   <option value="AL">Alabama</option>
   <option value="WY">Wyoming</option>
