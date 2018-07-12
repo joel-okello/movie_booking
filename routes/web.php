@@ -18,9 +18,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/shedule', 'SheduleController@index')->name('shedule');
-Route::get('/booked_movies', 'SheduleController@show_user_booked_movies')->name('booked_movies');
+Route::get('/schedule', 'SheduleController@show_schedule');
+//Route::get('/booked_movies', 'SheduleController@show_user_booked_movies')->name('booked_movies');
+Route::resource('/schedules', 'SheduleController');
+Route::resource('/add_movies', 'MoviesController');
+Route::get('/show_schedule', 'SheduleController@show_schedule')->name('show_schedule');
+Route::get('/show_movies_on_shedule', 'SheduleController@show_movies_on_shedule')->name('show_movies_on_shedule');
 
-Route::get('/', 'SheduleController@show_user_booked_movies')->name('booked_movies');
 
-Route::get('/add_movies', 'SheduleController@add_movies')->name('add_movies');

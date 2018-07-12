@@ -8,98 +8,101 @@
     <h1>Movie Schedules</h1>      
   </div>     
 </div>
-<div class="row">
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Date </th>
-      <th scope="col">Movie Title</th>
-      <th scope="col">Starting Time </th>
-      <th scope="col">Price</th>
-      <th scopre="col">Add burner</th>
-      <th scope="col">Edit </th>
-      <th scope="col">Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row" rowspan="3">Monday</th>
-      <td>Museveni Must Leave, Part 3</td>
-      <td>10:00 am</td>
-      <td> 10,000/=</td>
-      <td>
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Choose Image</label>
-        </div>
-      </td>
-      <td><button type="button" class="btn btn-success">Edit Details</button></td>
-      <td><button type="button" class="btn btn-danger">Delete</button></td>
 
-    </tr>
 
-    <tr>
-       <td>Museveni Must Leave, Part 3</td>
-      <td>12:00 am</td>
-      <td> 10,000/=</td>
-      <td>
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Choose Image</label>
-        </div>
-      </td>
-      <td><button type="button" class="btn btn-success">Edit Details</button></td>
-      <td><button type="button" class="btn btn-danger">Delete</button></td>
 
-    </tr>
-    <tr>
-       <td>Museveni Must Leave, Part 3</td>
-      <td>12:00 am</td>
-      <td> 10,000/=</td>
-      <td>
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Choose Image</label>
-        </div>
-      </td>
-      <td><button type="button" class="btn btn-success">Edit Details</button></td>
-      <td><button type="button" class="btn btn-danger">Delete</button></td>
+<div class="float-right"><button type="button" class="btn btn-primary" >Shedule More Movies</button></div>
+<br>
+<br>
 
-    </tr>
+@if(count($errors)>0)
+    <div class="alert alert-danger alert-dismissable">
+      <ul>
+        @foreach($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
+      </ul>
 
-    <tr>
+    </div>
+    @endif
+    @if(\Session::has('success'))
+    <div class="alert alert-success alert-dismissable">
+      {{(\Session::get('success'))}}
+    </div>
+    @endif
 
-      <td><input type="text" name="date" id="date"></td>
-       <td><select class="js-example-basic-single" name="state">
-  <option value="AL">Alabama</option>
-  <option value="WY">Wyoming</option>
-</select></td>
-      <td><select class="custom-select">
-  <option selected>Start Time</option>
-  <option value="1">10:00am</option>
-  <option value="2">12:00am</option>
-  <option value="3">2:00pm</option>
-  <option value="3">6:00pm</option>
-  <option value="3">10:00pm</option>
-</select></td>
-      <td><input class="form-control" type="text" placeholder="Price"></td>
-      <td>
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="customFile">
-          <label class="custom-file-label" for="customFile">Choose Image</label>
-        </div>
-      </td>
-      <td colspan="2"><button type="button" class="btn btn-success">Add Movie</button></td>
+<div class="row lead">
+      <div class="col-md-2">Date</div>
+      <div class="col-md-2">Time</div>
+      <div class="col-md-3">Movie Title</div>
+      <div class="col-md-2"> Price</div>
+      <div class="col-md-1">Edit</div>
+      <div class="col-md-2">Delete</div>
+
+    </div>
+
+    <form method="post" enctype="multipart/form-data" action="{{url('schedules')}}">
+    <div class="row" id="adding_to_shedule">
       
+      <div class="col-md-2">
+            {{csrf_field()}}
+            <input class="form-control" type="text" placeholder="Date" name="date" id="datepicker">
+     </div>
+       <div class="col-md-2">
+        <select class="custom-select" name="time" style="padding:0px">
+          <option selected>Start Time</option>
+          <option value="10:00">10:00am</option>
+          <option value="12:00">12:00am</option>
+          <option value="14:00">2:00pm</option>
+          <option value="18:00">6:00pm</option>
+          <option value="22:00">10:00pm</option>
+         </select>
+       </div>
+       <div class="col-md-3">
+        <select class="select2 form-control form-control-lg " name="movie_id" style="width: 100%">
 
-    </tr>
+          @foreach($available_movies_to_add as $movie)
+          <option value="{{$movie->id}}">{{$movie->title}}</option>
+          @endforeach
+        </select>
+       </div>
+     
+      <div class="col-md-2">
+        <input class="form-control" type="text" name="price" placeholder="Price">
+      </div>
+     
+      <div class="col-md-1">
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+    
+    </div>
+    </form>
+
+ @foreach($sheduledmovies as $row)
+<div class="row">
+      <div class="col-md-2">{{$row->date}}</div>
+      <div class="col-md-2">{{$row->time}}</div>
+      <div class="col-md-3">{{$row->title}}</div>
+      <div class="col-md-2">{{$row->price}}</div>
+      <div class="col-md-1"><button type="button" class="btn btn-success">Edit</button></div>
+      <div class="col-md-2"><button type="button" class="btn btn-danger">Delete</button></div>
+
+    </div>
+   
+@endforeach 
 
     
-  </tbody>
-</table>
+
+    
+
+
+    
+
 
 
 </div>
 </div>
+
+
 @endsection('content')

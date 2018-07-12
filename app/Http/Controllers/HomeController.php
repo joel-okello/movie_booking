@@ -23,6 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('index');
+        return redirect()->route('show_schedule')->with('success','Movie Added');
     }
 }

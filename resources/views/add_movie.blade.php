@@ -38,16 +38,16 @@
       <table class="table table-hover">
         <input type="hidden" name="_method" value="PATCH">
         <tr>
-            <td>Movie Name </td>  
-            <td><input type="text" class="form-control" name="name" value="{{$movie->name}}"></td>
+            <td>Movie Title </td>  
+            <td><input type="text" class="form-control" name="title" value="{{$movie->title}}"></td>
         </tr>
         <tr>
-            <td>Movie Actor </td>  
-            <td><input type="text" class="form-control" name="actor" value="{{$movie->actor}}"></td>
+            <td>Movie Type </td>  
+            <td><input type="text" class="form-control" name="type" value="{{$movie->type}}"></td>
         </tr>
        <tr>
-            <td>File Upload </td>  
-            <td><a href='{{asset($movie->file)}}'>View</a><input type="file" name="file" id="file"></td>
+            <td>Baner Image </td>  
+            <td><input type="text" name="image_location" id="file" value="{{$movie->image_location}}"></td>
         </tr>
         <!--<tr>
             <td>Open Filed Now </td>  
@@ -56,10 +56,7 @@
         </tr>-->
           
 
-        <tr>
-            <td>Movie Price </td>  
-            <td><input type="number" class="form-control" name="price" value="{{$movie->price}}"></td>
-        </tr>
+        
         <tr>
             <td></td>  
             <td><button type="submit" class="btn btn-primary">Submit</button></td>
@@ -79,22 +76,22 @@
     @endif
 
 @if(!$movie)
- <form method="post" enctype="multipart/form-data" action="{{url('movies')}}">
+ <form method="post" enctype="multipart/form-data" action="{{url('add_movies')}}">
     {{csrf_field()}}
     <table class='table table-hover'>
  
         <tr>
             <td>Movie Tiltle </td>  
-            <td><input type="text" class="form-control" name="name"></td>
+            <td><input type="text" class="form-control" name="title"></td>
         </tr>
 
         <tr>
             <td>Movie Type:</td>  
-            <td><input type="text" class="form-control" name="actor"></td>
+            <td><input type="text" class="form-control" name="type"></td>
         </tr>
         <tr>
             <td>Banner Image </td>  
-            <td><input type="file" name="file" id="file"></td>
+            <td><input type="text" name="image_location" id="file"></td>
         </tr>
         <tr>
             <td></td>  
@@ -132,11 +129,15 @@
 
     <tbody>
       @if($movies)
+
       @foreach($movies as $row)
       <tr>
+
+
+             
         <td>{{$row->title}}</td>
         <td>{{$row->type}}</td>
-         <td><a href="{{asset($row->file)}}" >Open file</a></td>
+        <td>{{$row->image_location}}</td>
         <td><a href="{{action('MoviesController@edit',$row->id)}}">
           <button type="button" class="btn btn-success">Edit</button></a></td>
         <td><form method="post" action="{{action('MoviesController@destroy',$row->id)}}">

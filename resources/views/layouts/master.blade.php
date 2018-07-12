@@ -14,9 +14,11 @@
 
 
     <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet">
-    <!-- <script src="{{ asset('js/jquery-min.js') }}"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>-->
+    <script src="{{ asset('js/jquery-min.js') }}"></script>
+    <script src="js/zebra_datepicker.min.js"></script>
+ 
+     <script src="js/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
    
 
 
@@ -51,7 +53,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{{URL('/home')}}">Book Movie
+              <a class="nav-link" href="{{URL('/show_movies_on_shedule')}}">Book Movie
               
               </a>
             </li>
@@ -59,7 +61,7 @@
               <a class="nav-link" href="{{URL('/booked_movies')}}">Booked Movies <span class="badge badge-light">4</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{URL('/shedule')}}">Managed Schedules</a>
+              <a class="nav-link" href="{{URL('/schedule')}}">Managed Schedules</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{URL('/add_movies')}}">Add Movies</a>
@@ -87,23 +89,41 @@
 
 
 
-<link rel="stylesheet" href="{{ asset('jquery-ui/jquery-ui.min.css') }}" >
-<script src="{{ asset('jquery-ui/external/jquery/jquery.js') }}" ></script>
-<script src="{{ asset('jquery-ui/jquery-ui.min.js') }}"></script>
 
 
 
+<link rel="stylesheet" href="css/zebra_datepicker.min.css">
 <link href="{{ asset('select2/css/select2.min.css') }}" rel="stylesheet" />
 <script src="{{ asset('select2/js/select2.min.js') }}"></script>
 
 <script type="text/javascript">
   // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
-    $('.js-example-basic-single').select2();
-    alert("done jhbbjhb");
-    $( "#date" ).datepicker();
+    $('.select2').select2();
+   $('#datepicker').Zebra_DatePicker({
+    direction: 1
+});
+
+
+   $(".week").datepicker("option", {
+  beforeShowDay: function (date)
+  {
+    return [date.getDay() == 1, ''];
+  }
+});
+
+// prevent changing weeks and months
+var weekOptions = { "changeMonth": false, "changeYear": false, "stepMonths": 0, beforeShowDay: function (date) {
+    return [date.getDay() == 1, ''];
+  } 
+};
+$(function () {
+  $(".week").datepicker("option", weekOptions);
+});
+
     
 });
+
 
 
 </script>

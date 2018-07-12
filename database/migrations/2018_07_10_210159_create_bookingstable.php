@@ -34,15 +34,6 @@ class CreateBookingstable extends Migration
     public function down()
     {
         Schema::dropIfExists('bookings');
-         Schema::create('bookings', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('ticket_number');
-            
-            $table->unsignedInteger('shedule_id');
-            $table->foreign('shedule_id')->references('id')->on('schedules');
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-
-        });
+         
     }
 }

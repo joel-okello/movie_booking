@@ -22,6 +22,8 @@ class CreateShedulestable extends Migration
             $table->foreign('movie_id')->references('id')->on('movies');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+           
+
         });
     }
 
@@ -33,15 +35,7 @@ class CreateShedulestable extends Migration
     public function down()
     {
         Schema::dropIfExists('schedules');
-        Schema::create('schedules', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('ticket_number')->nullable();
-            $table->string('first_seat_option');
-            $table->string('second_seat_option');
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedInteger('shedule_id');
-            $table->foreign('shedule_id')->references('id')->on('schedules');
-        });
+        
+        
     }
 }
