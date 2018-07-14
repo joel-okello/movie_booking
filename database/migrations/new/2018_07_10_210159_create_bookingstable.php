@@ -22,7 +22,6 @@ class CreateBookingstable extends Migration
             $table->foreign('shedule_id')->references('id')->on('schedules');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->enum('status', ['activated', 'cancelled','used']);
 
         });
     }

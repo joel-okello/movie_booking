@@ -15,11 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('old1', 'SheduleController@test');
+
 Auth::routes();
 
+
+
+Route::get('/show_movies_on_shedule/{id}', 'SheduleController@view_details');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/schedule', 'SheduleController@show_schedule');
-//Route::get('/booked_movies', 'SheduleController@show_user_booked_movies')->name('booked_movies');
+Route::get('/booked_movies', 'SheduleController@show_user_booked_movies')->name('booked_movies');
 Route::resource('/schedules', 'SheduleController');
 Route::resource('/add_movies', 'MoviesController');
 Route::get('/show_schedule', 'SheduleController@show_schedule')->name('show_schedule');

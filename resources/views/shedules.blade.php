@@ -15,7 +15,6 @@
 <div class="float-right"><button type="button" class="btn btn-primary" >Shedule More Movies</button></div>
 <br>
 <br>
-
 @if(count($errors)>0)
     <div class="alert alert-danger alert-dismissable">
       <ul>
@@ -50,7 +49,7 @@
             <input class="form-control" type="text" placeholder="Date" name="date" id="datepicker">
      </div>
        <div class="col-md-2">
-        <select class="custom-select" name="time" style="padding:0px">
+        <select class="custom-select" name="time" style="padding:0px;margin: 0px">
           <option selected>Start Time</option>
           <option value="10:00">10:00am</option>
           <option value="12:00">12:00am</option>
@@ -61,7 +60,7 @@
        </div>
        <div class="col-md-3">
         <select class="select2 form-control form-control-lg " name="movie_id" style="width: 100%">
-
+          @if($available_movies_to_add)
           @foreach($available_movies_to_add as $movie)
           <option value="{{$movie->id}}">{{$movie->title}}</option>
           @endforeach
@@ -79,30 +78,30 @@
     </div>
     </form>
 
- @foreach($sheduledmovies as $row)
-<div class="row">
-      <div class="col-md-2">{{$row->date}}</div>
-      <div class="col-md-2">{{$row->time}}</div>
-      <div class="col-md-3">{{$row->title}}</div>
-      <div class="col-md-2">{{$row->price}}</div>
-      <div class="col-md-1"><button type="button" class="btn btn-success">Edit</button></div>
-      <div class="col-md-2"><button type="button" class="btn btn-danger">Delete</button></div>
 
-    </div>
+
+    <table class="table table-striped table-hover">
+    @endif
+@if($sheduledmovies)
+ @foreach($sheduledmovies as $row)
+<tr >
+      <td>{{$row->date}}</td>
+      <td>{{$row->time}}</td>
+      <td>{{$row->title}}</td>
+      <td>{{$row->price}}</td>
+      <td><button type="button" class="btn btn-success">Edit</button></td>
+      <td><button type="button" class="btn btn-danger">Delete</button></td>
+
+    </tr
+    </table>
    
 @endforeach 
-
-    
-
-    
-
-
-    
-
-
+@endif
 
 </div>
 </div>
-
+<br>
+<br>
+<br>
 
 @endsection('content')

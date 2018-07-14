@@ -27,91 +27,70 @@
       {{(\Session::get('success'))}}
     </div>
     @endif
-    
+    </div>
+  </div>
+
+<div class="row">
+    <button class="btn btn-primary" style="align:left" data-toggle="modal" data-target="#exampleModals">Add New Movie</button>
+    </div>
 
 
-    @if($movie)
-    <form method="post" enctype="multipart/form-data" action="{{action('MoviesController@update',$id)}}">
-    {{csrf_field()}}
 
-    <!--<table class='table table-hover table-responsive table-bordered'>-->
-      <table class="table table-hover">
-        <input type="hidden" name="_method" value="PATCH">
-        <tr>
-            <td>Movie Title </td>  
-            <td><input type="text" class="form-control" name="title" value="{{$movie->title}}"></td>
-        </tr>
-        <tr>
-            <td>Movie Type </td>  
-            <td><input type="text" class="form-control" name="type" value="{{$movie->type}}"></td>
-        </tr>
-       <tr>
-            <td>Baner Image </td>  
-            <td><input type="text" name="image_location" id="file" value="{{$movie->image_location}}"></td>
-        </tr>
-        <!--<tr>
-            <td>Open Filed Now </td>  
-            td><a id="new_tab" href="{{ asset($movie->file) }}">Open</a> </td>
-            <td><button id="new_tab">Open</button>  </td>
-        </tr>-->
-          
 
-        
-        <tr>
-            <td></td>  
-            <td><button type="submit" class="btn btn-primary">Submit</button></td>
-        </tr>
-      </table>
-      <script type="text/javascript" language="javascript">
-   // <![CDATA[
-   $(document).ready(function() {
-      $('#new_tab').click(function() {
-        //alert("Hello world!");
-        window.open('{{ asset($movie->file) }}');
-      });
-   });
-   // ]]>
-   </script>
-    </form> 
-    @endif
 
-@if(!$movie)
- <form method="post" enctype="multipart/form-data" action="{{url('add_movies')}}">
-    {{csrf_field()}}
-    <table class='table table-hover'>
- 
-        <tr>
-            <td>Movie Tiltle </td>  
-            <td><input type="text" class="form-control" name="title"></td>
-        </tr>
 
-        <tr>
-            <td>Movie Type:</td>  
-            <td><input type="text" class="form-control" name="type"></td>
-        </tr>
-        <tr>
-            <td>Banner Image </td>  
-            <td><input type="text" name="image_location" id="file"></td>
-        </tr>
-        <tr>
-            <td></td>  
-            <td><button type="submit" class="btn btn-primary">Submit</button></td>
-        </tr>
 
-      </table>
+
+
+<div class="modal fade center " id="exampleModals" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+        Select your preferecences</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form 
+          id="form1" method="post" enctype="multipart/form-data" action="{{url('add_movies')}}">
+            
       
-          
-    </form> 
-  @endif
+             <div class="col-md-12"><br>
+               {{csrf_field()}}
+             <label >Movie Title</label>
+                   
+                 <input type="text" class="form-control" name="title" value="">
+            </div>
+            <div class="col-md-12"><br>
+                
+                <label >Movie Type</label> 
+                 <select name="type" style="width:100%">
+                   <option value="Love">Love</option>
+                   <option value="Action">Action</option>
+                   <option value="Horror">Horror</option>
+                   <option value="Adventure">Adventure</option>
+                </select> 
+                 </div>
+             <div class="col-md-12"><br>
+                <label >Baner Image </label><br>
+                <input type="file" name="file" id="fileToUpload">
+             </div>
+              
+       </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
+        <button class="btn btn-primary"type="submit" form="form1" value="Submit">Save Movie</button>
 
+      </div>
+    </div>
   </div>
 </div>
 
 
-<br>
-<br>
-<br>
 
  <div class="row">
   <div class="col-md-12">   
@@ -123,7 +102,7 @@
         <th>Movie Type</th>
         <th>View File</th>
         <th>Edit</th>
-        <th>Delete</th>
+        <th>Dont Show</th>
       </tr>
     </thead>
 
@@ -139,11 +118,11 @@
         <td>{{$row->type}}</td>
         <td>{{$row->image_location}}</td>
         <td><a href="{{action('MoviesController@edit',$row->id)}}">
-          <button type="button" class="btn btn-success">Edit</button></a></td>
+          <button type="button" class="btn btn-success" >Edit</button></a></td>
         <td><form method="post" action="{{action('MoviesController@destroy',$row->id)}}">
     {{csrf_field()}}
           <input type="hidden" name="_method" value="DELETE">
-          <button type="submit" class="btn btn-danger" value="Edit">Delete</button>
+          <button type="submit" class="btn btn-danger" value="Edit" >Remove</button>
     </form> </td>
 
       </tr>

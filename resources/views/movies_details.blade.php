@@ -39,15 +39,15 @@
               <label for="recipient-name" class="col-form-label">Movie Title:</label>
               <input type="text" class="form-control" id="moviename" name="moviename" value="" readonly="readonly">
             </div></div>
-            <div class="col-md-12"><div class="form-group">
+            <div class="col-md-6"><div class="form-group">
               <label for="recipient-name" class="col-form-label">Movie Date:</label>
               <input type="text" class="form-control" id="moviedate" name="moviedate" value="" readonly="readonly">
             </div></div>
-             <div class="col-md-12"><div class="form-group">
+             <div class="col-md-3"><div class="form-group">
               <label for="recipient-name" class="col-form-label">Movie Time:</label>
               <input type="text" class="form-control" name="movie" value="10:00pm" readonly="readonly">
             </div></div>
-            <div class="col-md-12"><div class="form-group">
+            <div class="col-md-3"><div class="form-group">
               <label for="message-text" class="col-form-label">Movie Price</label>
               <input type="text" class="form-control" name="moviename" value="10,000" readonly="readonly">
             </div>
@@ -94,50 +94,53 @@
 
   <!-- Card Dark -->
 
+@if($selected_movie_data)
   <div class="row">
+    <div class="col-md-4">
 
-  @foreach($sheduledmovies as $row)
-  <div class="card col-md-3" >
-
-    <!-- Card image -->
-    <div class="view overlay">
-      <img class="card-img-top" src="{{$row->image_location}}" 
-           alt="Card image cap">
-      <a>
-        <div class="mask rgba-white-slight">
+        <img class="card-img-top" 
+              src="{{$selected_movie_data['image_location']}}" 
+              alt="Card image cap">
+        
+    </div>
+  
+ 
+<div class="col-md-8">
+      <div class="col-md-12 text-center">
+        <h1>{{$selected_movie_data['title']}}</h1>
+      </div>
+       
+      <div class="row lead">
           
+            <div class="col-md-3">Date</div>
+            <div class="col-md-3">Time</div>
+            <div class="col-md-3">Price</div>
+            
+            
         </div>
-      </a>
-    </div>
 
-    <!-- Card content -->
-    <div class="card-body elegant-color white-text rounded-bottom">
-
-      <!-- Social shares button -->
-        <a class="activator waves-effect mr-4">
-           <i class="fa fa-share-alt white-text">
-           </i>
-        </a>
-        <!-- Title -->
-        <h4 class="card-title">{{$row->title}}</h4>
-        <hr class="hr-light">
-        <!-- Text -->
-        <p class="card-text white-text mb-4">Showing on 
-            @foreach($row->dates as $date)
-            {{$date->format('l').". "}}
-            @endforeach
-        </p>
-        <!-- Link -->
-        <a href="{{action('SheduleController@view_details',$row->movie_id)}}" class="white-text d-flex justify-content-end">
-          <h5 >
-              View Details 
-          </h5>
-        </a>
-
-    </div>
+       @if($selected_movie_shedules)
+        @foreach($selected_movie_shedules as $row)
+        <div class="row">
+              <div class="col-md-3">{{$row->date->format('l')}}</div>
+              <div class="col-md-3">{{$row->time}}</div>
+              <div class="col-md-3"> {{$row->price}}</div>
+              <div class="col-md-3"><a href="#" >Book Movie</a></div>
+              
+            </div>
+        @endforeach
+       @endif
+      
+</div>
+ @endif
 
   </div>
-  @endforeach
+
+  <div class="row">
+
+  
+ 
+
   </div>      
 </div>
 </br>

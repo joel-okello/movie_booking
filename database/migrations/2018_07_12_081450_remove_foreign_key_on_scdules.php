@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMoviestable extends Migration
+class RemoveForeignKeyOnScdules extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateMoviestable extends Migration
      */
     public function up()
     {
-        Schema::create('movies', function (Blueprint $table) {
-            $table->increments('id');
-             $table->string('title');
-            $table->string('type');
-            $table->string('image_location')->nullable();
+        Schema::table('schedules', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
         });
     }
 
@@ -28,6 +26,8 @@ class CreateMoviestable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movies');
+        Schema::table('shedules', function (Blueprint $table) {
+            //
+        });
     }
 }

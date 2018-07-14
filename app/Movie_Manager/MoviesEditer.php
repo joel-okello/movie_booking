@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Movie_Manager;
 
 use App\schedules;
 use App\Movies;
 use Illuminate\Http\Request;
 use DB;
-use App\Movie_Manager\MoviesEditer;
-use Storage;
 
-class MoviesController extends Controller
+class MoviesEditer 
 {
     /**
      * Display a listing of the resource.
@@ -18,22 +16,15 @@ class MoviesController extends Controller
      */
 
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-
-
-    public function index()
+    public static function show_all()
     {
 
-        $data = MoviesEditer::show_all();
-        $movies = $data['movies'];
-        $movie = $data['movie'];
-    
-        
-        return view('add_movie',compact('movie','movies'));
+          
+        $movies = DB::table('movies')->get()->toArray();
+     
+        $movie = null;
+        return ['movie' => $movie,
+        'movies' => $movies];
     }
 
     /**
@@ -54,15 +45,9 @@ class MoviesController extends Controller
      */
     public function store(Request $request)
     {
-    
-        $this->validate($request,['title' => 'required', 'type' => 'required','file'=>'required']);
         
-        $entered_path = $request->file('file')->store('public'); 
-         // dd($request);
-        $movie_data = $request->only(['title', 'type']);
-        $movie_data['image_location'] = Storage::url($entered_path);
-
-        // dd($movie_data);
+        $this->validate($request,['title' => 'required', 'type' => 'required',]);    
+        $movie_data = $request->only(['title', 'type', 'image_location']);
         $movie = Movies::create($movie_data);
         return redirect()->route('add_movies.index')->with('success','Movie Added');
 
