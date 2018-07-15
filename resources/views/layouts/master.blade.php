@@ -69,9 +69,17 @@
             </li>
 
             <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">User Name</a>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Log Out</a>
+    <a class="nav-link" href="{{ route('logout') }}"
+              onclick="event.preventDefault();
+              document.getElementById('logout-form').submit();">
+              {{ __('Logout') }}
+    </a>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+
+
     </div>
   </li>
 
@@ -157,6 +165,63 @@ $( ".selected_movie" ).on('click', function() {
       });
     
  });
+
+
+
+$( ".select_shedule_for_movie" ).on('click', function() {
+
+  // console.log('this.name = ', this);
+
+
+  // alert( "Handler for .click() called." );
+  var x = this.getAttribute("shedule_id");
+  console.log('shedule_id=', x);
+
+
+// 
+      $.ajax({
+        url: "http://127.0.0.1:8000/retrieve_schedule_info",
+        type: "get", //send it through get method
+        data: { 
+          id:x
+          
+        },
+        success: function(response,status) {
+
+          console.log('response=', response);
+        
+
+  
+       document.getElementById("moviename").value = response.title;
+      document.getElementById("moviedate").value = response.date;
+      document.getElementById("movietime").value = response.time;
+      document.getElementById("movieprice").value = response.price;
+      document.getElementById("shedule_id").value = response.id;
+      
+            $("#exampleModal").modal();
+            
+
+            
+
+//             id  2
+// date  "2018-07-14"
+// time  "10:00:00"
+// price "12000.00"
+// movie_id  2
+// title "Today Feast"
+// type  "Action"
+// image_location  "/storage/PXxo2VWSPsHztxbWsAMFPfbfIi8rEZB8yCzkd7Mc.jpeg"
+          
+
+           
+        },
+        error: function(xhr,status) {
+          alert("Data: "+xhr+status);
+        }
+      });
+    
+ });
+
 
 
 

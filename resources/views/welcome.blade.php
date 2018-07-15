@@ -82,6 +82,69 @@
                     Laravel
                 </div>
 
+
+<form id="form1" name="form1" method="post"action="{{url('movie_booking')}}">
+            <div class="col-md-12"><div class="form-group">
+              <label for="recipient-name" class="col-form-label">Movie Title:</label>
+              <input type="hidden"  id="shedule_id" name="shedule_id" value="" >
+              <input type="text" class="form-control" id="moviename" name="title" value="" readonly="readonly">
+            </div>
+          </div>
+            
+                
+                <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-4 col-md-push-2">
+              <label for="recipient-name" class="col-form-label">Movie Date:</label>
+              <input type="text" class="form-control" id="moviedate" name="date" value="" readonly="readonly">
+            </div>
+             <div class="col-md-3">
+              <label for="recipient-name" class="col-form-label">Movie Time:</label>
+              <input type="text" class="form-control" id="movietime" name="time" value="10:00pm" readonly="readonly">
+            </div>
+            <div class="col-md-3">
+              <label for="message-text" class="col-form-label">Movie Price</label>
+              <input type="text" class="form-control" id="movieprice" name="price" value="10,000" readonly="readonly">
+            </div>
+          </div>
+          
+          
+            <div class="col-md-12">
+              <label for="recipient-name" class="col-form-label">Seat Option One:</label>
+          <select class="select2 form-control form-control-lg " name="first_seat_option" style="width: 100%; height: 100%">
+            <option value="">Select First Option</option>
+            <option value="LeatBack">Leat Back</option>
+            <option value="CenterBack">Center Back</option>
+            <option value="RightBack">Right Back</option>
+            <option value="LeftMiddle">Left Middle</option>
+            <option value="MiddleMiddle">Middle Middle</option>
+            <option value="RightMiddle">Right Middle</option>
+            <option value="LeftFront">Left Front</option>
+            <option value="MiddleFront">Middle Front</option>
+            <option value="RightFront">Right Front</option>
+
+            
+          </select>
+      </div>
+     <div class="col-md-12">
+              <label for="recipient-name" class="col-form-label">Seat Option One:</label>
+          <select class="select2 form-control form-control-lg " name="first_seat_two" style="width: 100%; height: 100%">
+          <option value="">Select Second Option</option>
+           <option value="LeatBack">Leat Back</option>
+            <option value="CenterBack">Center Back</option>
+            <option value="RightBack">Right Back</option>
+            <option value="LeftMiddle">Left Middle</option>
+            <option value="MiddleMiddle">Middle Middle</option>
+            <option value="RightMiddle">Right Middle</option>
+            <option value="LeftFront">Left Front</option>
+            <option value="MiddleFront">Middle Front</option>
+            <option value="RightFront">Right Front</option>
+
+            
+          </select>
+      </div>
+          </form>
+
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>

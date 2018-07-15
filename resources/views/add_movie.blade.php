@@ -29,10 +29,11 @@
     @endif
     </div>
   </div>
-
+@if(!$movie)
 <div class="row">
     <button class="btn btn-primary" style="align:left" data-toggle="modal" data-target="#exampleModals">Add New Movie</button>
     </div>
+    @endif
 
 
 
@@ -90,7 +91,47 @@
   </div>
 </div>
 
+ @if($movie)
+ <div class="row">
+  <div class="col-md-8"> 
+    <h5 >
+        Update your movie</h5>
+        <form method="post" enctype="multipart/form-data" action="{{action('MoviesController@update',$id)}}">
+    {{csrf_field()}}
 
+            <input type="hidden" name="_method" value="PATCH">
+      
+             <div class="col-md-12"><br>
+               
+             <label >Movie Title</label>
+                   
+                 <input type="text" class="form-control" name="title" value="{{$movie->title}}">
+            </div>
+            <div class="col-md-12"><br>
+                
+                <label >Movie Type</label> 
+                 <select name="type" style="width:100%">
+                   <option value="Love">Love</option>
+                   <option value="Action">Action</option>
+                   <option value="Horror">Horror</option>
+                   <option value="Adventure">Adventure</option>
+                </select> 
+                 </div>
+             <div class="col-md-12"><br>
+                <label >Baner Image </label><br>
+                <a href="{{$movie->image_location}}">View</a><input type="file" name="file" id="fileToUpload" value="">
+             </div>
+             <div class="col-md-12"><br>
+             <button class="btn btn-primary"type="submit" value="Submit">Update Movie</button>
+             </div>
+              
+       </form>
+
+    </div>
+   </div>
+   @endif
+   <br>
+   <br>
 
  <div class="row">
   <div class="col-md-12">   
@@ -100,9 +141,9 @@
       <tr>
         <th>Movie Tiltle</th>
         <th>Movie Type</th>
-        <th>View File</th>
+        <th>Movie Banner</th>
         <th>Edit</th>
-        <th>Dont Show</th>
+        
       </tr>
     </thead>
 
@@ -116,14 +157,10 @@
              
         <td>{{$row->title}}</td>
         <td>{{$row->type}}</td>
-        <td>{{$row->image_location}}</td>
+        <td><a href="{{$row->image_location}}">Follow link</a></td>
         <td><a href="{{action('MoviesController@edit',$row->id)}}">
           <button type="button" class="btn btn-success" >Edit</button></a></td>
-        <td><form method="post" action="{{action('MoviesController@destroy',$row->id)}}">
-    {{csrf_field()}}
-          <input type="hidden" name="_method" value="DELETE">
-          <button type="submit" class="btn btn-danger" value="Edit" >Remove</button>
-    </form> </td>
+        
 
       </tr>
 

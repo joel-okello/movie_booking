@@ -24,7 +24,7 @@ class SheduleController extends Controller
     public function index()
     {
     
-     $gr = new ScheduleEditer();
+
     }
     
 
@@ -47,34 +47,13 @@ class SheduleController extends Controller
     public function store(Request $request)
     {
         
-        $this->validate($request,['date' => 'required', 'time' => 'required','price' => 'required','movie_id' => 'required',]);  
-
-        $schedule_data = $request->only(['date', 'time', 'price','movie_id','file']);
-        $new_shedule = Schedules::create($schedule_data);
+        ScheduleEditer::store_shedule($request);
         return redirect()->route('add_movies.index')->with('success','Movie has been sheduled');
     }
 
 
 
-     function test(Request $request)
-    {
-
-      $shedule_id = $request->get('id');
-      $movie_info = DB::table('schedules')->where('schedules.id', $shedule_id)
-           ->join('movies', 'schedules.movie_id', '=', 'movies.id')
-           ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price')
-            ->get()->first();
-           
-     
-     $movie_info->dates = ['tuesday','wenesday'];
-
-    
-     
-    // dd( $movie_info );
-
-     return  response()->json($movie_info);   
-    }
- 
+   
 
 
     /**
@@ -96,7 +75,14 @@ class SheduleController extends Controller
      */
     public function edit($id)
     {
-        dd($id);
+
+        $data_of_schedules = ScheduleEditer::show_schedule_of_movies();
+        $sheduledmovies = $data_of_schedules['sheduledmovies'];
+        $movie_being_edited = Schedules::find($id);
+        $available_movies_to_add = $data_of_schedules['available_movies_to_add'];
+     
+        return view('shedules',compact('sheduledmovies','movie_being_edited','available_movies_to_add'));
+       
 
     }
 
@@ -109,7 +95,8 @@ class SheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $data_of_schedules = ScheduleEditer::update_shedules($request, $id);
+ 
     }
 
     public function view_details($id)
@@ -131,18 +118,12 @@ class SheduleController extends Controller
 
 
 
-        $booked_movies = DB::table('bookings')->where('user_id', Auth::User()->id)
-           ->join('schedules','bookings.shedule_id','=','schedules.id')
-           ->join('movies', 'schedules.movie_id', '=', 'movies.id')
-           ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price')
-            ->get()->toArray();
-
-
+        $booked_movies = ScheduleEditer::get_user_booked_movies(); 
         // $shedule_to_edit = null;
         return view('booked_movies',compact('shedule_to_edit','booked_movies'));
     }
 
-
+   //image based scheduled for users;
     public function show_movies_on_shedule()
     {
          
@@ -151,7 +132,6 @@ class SheduleController extends Controller
     
        $sheduledmovies = $shedulebmgr->show_movies_on_shedule();
         
-
             
         return view('index',compact('shedule_to_edit','sheduledmovies'));
     }
@@ -162,23 +142,16 @@ class SheduleController extends Controller
     }
 
 
-
+    //showing table shedule in shedule.blade
     public function show_schedule()
 
     {
-
-      
-  
-
-        $sheduledmovies = DB::table('schedules')
-            ->join('movies', 'schedules.movie_id', '=', 'movies.id')
-            ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price')
-            ->get()->toArray();
-        $shedule_to_edit = null;
-        $available_movies_to_add = DB::table('movies')
-            ->select('movies.id','movies.title')
-            ->get()->toArray();
-        return view('shedules',compact('shedule_to_edit','sheduledmovies','available_movies_to_add'));
+ 
+     $data_of_schedules = ScheduleEditer::show_schedule_of_movies();
+     $sheduledmovies = $data_of_schedules['sheduledmovies'];         
+     $available_movies_to_add = $data_of_schedules['available_movies_to_add'];
+     $movie_being_edited = null;
+        return view('shedules',compact('sheduledmovies','available_movies_to_add','movie_being_edited'));
     }
 
 
@@ -187,7 +160,7 @@ class SheduleController extends Controller
 
     {
 
-      dd("am showing something");
+      
     }
 
 
@@ -201,4 +174,15 @@ class SheduleController extends Controller
     {
         //
     }
+
+    public function retrieve_schedule_info(Request $request)
+    {
+
+       $shedulebmgr =  new ScheduleEditer();
+     
+    
+       $shedule_info = $shedulebmgr->get_schedule_details($request->id);
+        return response()->json($shedule_info);
+    }
+
 }

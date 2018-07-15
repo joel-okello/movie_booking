@@ -128,7 +128,7 @@
             @endforeach
         </p>
         <!-- Link -->
-        <a href="{{action('SheduleController@view_details',$row->movie_id)}}" class="white-text d-flex justify-content-end">
+        <a href="{{action('SheduleController@view_details',$row->id)}}" class="white-text d-flex justify-content-end">
           <h5 >
               View Details 
           </h5>

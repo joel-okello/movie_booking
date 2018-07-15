@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Movie_Manager;
 
-use App\schedules;
+use App\Schedules;
 use App\Movies;
+use App\Bookings;
 use Illuminate\Http\Request;
 use DB;
-use App\Movie_Manager\MoviesEditer;
-use Storage;
+use Auth;
+use Illuminate\Contracts\Validation\Validator;
 
-class MoviesController extends Controller
+class BookingsEditer 
 {
     /**
      * Display a listing of the resource.
@@ -17,34 +18,6 @@ class MoviesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-
-
-    public function index()
-    {
-
-        $data = MoviesEditer::show_all();
-        $movies = $data['movies'];
-        $movie = $data['movie'];
-    
-        
-        return view('add_movie',compact('movie','movies'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -55,9 +28,22 @@ class MoviesController extends Controller
     public function store(Request $request)
     {
 
+        
+        $validateddata = $request->validate([
+        	'shedule_id' => 'required',
+        	'first_seat_option' => 'required',
+        	'second_seat_option' => 'required',
+            ]);
 
-        MoviesEditer::storemovie($request);
-        return redirect()->route('add_movies.index')->with('success','Movie Updated');
+
+        $booking_data = $request->only(['shedule_id', 'first_seat_option', 'second_seat_option']);
+        $booking_data['status'] = 'activated';
+        $booking_data['user_id'] = Auth::User()->id;
+        $booking_data['ticket_number'] = $request->date.Auth::User()->id.$request->shedule_id;
+        $schedule = Bookings::create($booking_data);
+
+
+        return ['success' => 'successfully booked ticket'];
 
     }
 
@@ -80,11 +66,11 @@ class MoviesController extends Controller
      */
     public function edit($id)
     {
-      
 
-        $data = MoviesEditer::edit($id);
-        $movies = $data['movies'];
-        $movie = $data['movie'];
+
+
+        $movie = movies::find($id);
+        $movies = movies::all();
         return view('add_movie',compact('movie','movies','id'));
         
     }
@@ -97,11 +83,11 @@ class MoviesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {    
-
-          MoviesEditer::updatemovieinfo($request, $id);
-          
-        return redirect()->route('add_movies.index')->with('success','Movie Updated');
+    {
+         $new_movie_data = $request->only(['title', 'type', 'image_location']);
+         $movie = movies::where('id', $id)
+          ->update($new_movie_data);
+        return redirect()->route('add_movies.index')->with('success','Data Updated');
     }
 
     /**
@@ -112,8 +98,6 @@ class MoviesController extends Controller
      */
     public function destroy($id)
     {
-        $movies = movies::find($id);
-        $movies ->delete();
-        return redirect()->route('add_movies.index')->with('success','Movie Deleted sucessfully');
+      
     }
 }

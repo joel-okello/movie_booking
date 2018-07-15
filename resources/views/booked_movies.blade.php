@@ -8,29 +8,62 @@
     <h1>Booked Movies</h1>      
   </div>     
 </div>
-
-<div class="row lead" style="background-color: #e6e6ef;">
-      <div class="col-md-2">Movie Title</div>
-      <div class="col-md-2">Date</div>
-      <div class="col-md-2">StartingTime </div>
-      <div class="col-md-2">Sitting Position</div>
-      <div class="col-md-2">View Ticket</div>
-      <div class="col-md-2">Request Change</div>
-      
-    </div>
- @if($booked_movies)
-@foreach ($booked_movies as $row)
 <div class="row">
-      <div class="col-md-2">{{$row->title}}</div>
-      <div class="col-md-2">{{$row->Date}}</div>
-      <div class="col-md-2">{{$row->Date}}</div>
-      <div class="col-md-2"> Left Right</div>
-      <div class="col-md-2"><a href="#" >Click Here</a></div>
-      <div class="col-md-2"><a href="#" >Request Change</a></div>
-      
+  <div class="col-md-12"> 
+    @if(count($errors)>0)
+    <div class="alert alert-danger alert-dismissable">
+      <ul>
+        @foreach($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
+      </ul>
+
     </div>
+    @endif
+    @if(\Session::has('success'))
+    <div class="alert alert-success alert-dismissable">
+      {{(\Session::get('success'))}}
+    </div>
+    @endif
+    </div>
+  </div>
+
+
+
+
+
+<table class="table table-striped table-hover">
+     <thead> 
+      <th >Movie Title</th>
+      <th >Date</th>
+      <th>StartingTime </th>
+      <th>Sitting Position</th>
+      <th>View Ticket</th>
+      <th>Request Change</th>
+      
+    </thead>
+     
+@if($booked_movies)
+@foreach($booked_movies as $row)
+        <tr >
+            <td>{{$row->title}}</td>
+            <td>{{$row->date}}</td>
+            <td>{{$row->time}}</td>
+            <td>{{$row->first_seat_option}}</td>
+            <td>
+              <button type="button" class="btn btn-success" href="#" >Click Here</button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger">Delete</button>
+            </td>
+
+          </tr
+       
+    
  @endforeach
  @endif
+
+ </table>
 </div>
 </div>
 @endsection('content')

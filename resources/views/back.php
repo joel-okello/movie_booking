@@ -22,7 +22,7 @@
         
          
 
- <!--model class  -->
+  <!--model class  -->
 
   <div class="modal fade center " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -34,10 +34,7 @@
           </button>
         </div>
         <div class="modal-body">
-
-          
-          <form id="form1" name="form1" method="post"action="{{url('show_movies_on_shedule')}}">
-            {{csrf_field()}}
+          <form id="form1" name="form1" method="post"action="{{url('movie_booking1')}}">
             <div class="col-md-12"><div class="form-group">
               <label for="recipient-name" class="col-form-label">Movie Title:</label>
               <input type="hidden"  id="shedule_id" name="shedule_id" value="" >
@@ -81,8 +78,8 @@
           </select>
       </div>
      <div class="col-md-12">
-              <label for="recipient-name" class="col-form-label">Seat Option Two:</label>
-          <select class="select2 form-control form-control-lg " name="second_seat_option" style="width: 100%; height: 100%">
+              <label for="recipient-name" class="col-form-label">Seat Option One:</label>
+          <select class="select2 form-control form-control-lg " name="first_seat_two" style="width: 100%; height: 100%">
           <option value="">Select Second Option</option>
            <option value="LeatBack">Leat Back</option>
             <option value="CenterBack">Center Back</option>
@@ -112,7 +109,6 @@
 
 
 
-
   <!-- Card Dark -->
 
 @if($selected_movie_data)
@@ -127,24 +123,6 @@
   
  
 <div class="col-md-8">
-      <div class="row">
-        <div class="col-md-12"> 
-          @if(count($errors)>0)
-          <div class="alert alert-danger alert-dismissable">
-            <ul> 
-              @foreach($errors->all() as $error)
-              <li>Booking failed {{$error}}</li>
-              @endforeach
-            </ul>
-          </div>
-          @endif
-          @if(\Session::has('success'))
-          <div class="alert alert-success alert-dismissable">
-            {{(\Session::get('success'))}}
-          </div>
-          @endif
-      </div>
-    </div>
       <div class="col-md-12 text-center">
         <h1>{{$selected_movie_data['title']}}</h1>
       </div>

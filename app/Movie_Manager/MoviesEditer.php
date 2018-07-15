@@ -6,6 +6,7 @@ use App\schedules;
 use App\Movies;
 use Illuminate\Http\Request;
 use DB;
+use Storage;
 
 class MoviesEditer 
 {
@@ -43,11 +44,13 @@ class MoviesEditer
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public static function storemovie(Request $request)
     {
+
         
-        $this->validate($request,['title' => 'required', 'type' => 'required',]);    
+        $request->validate(['title' => 'required', 'type' => 'required','file'=> 'required']);    
         $movie_data = $request->only(['title', 'type', 'image_location']);
+        $movie_data['image_location'] = Storage::url($request->file('file')->store('public')); 
         $movie = Movies::create($movie_data);
         return redirect()->route('add_movies.index')->with('success','Movie Added');
 
@@ -70,14 +73,15 @@ class MoviesEditer
      * @param  \App\schedules  $schedules
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public static function edit($id)
     {
 
 
 
         $movie = movies::find($id);
         $movies = movies::all();
-        return view('add_movie',compact('movie','movies','id'));
+        return ['movie'=>$movie,
+                 'movies' => $movies];
         
     }
 
@@ -88,12 +92,29 @@ class MoviesEditer
      * @param  \App\schedules  $schedules
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public static function updatemovieinfo(Request $request, $id)
     {
-         $new_movie_data = $request->only(['title', 'type', 'image_location']);
-         $movie = movies::where('id', $id)
-          ->update($new_movie_data);
-        return redirect()->route('add_movies.index')->with('success','Data Updated');
+         $request->validate(['title' => 'required', 'type' => 'required',]); 
+        if(!$request->file){
+             $new_movie_data = $request->only(['title', 'type']);
+             $movie = movies::where('id', $id)
+             ->update($new_movie_data);
+          }
+          
+          else
+          {
+            $movie = movies::find($id);
+            $old_file_path = $movie->image_location;
+            Storage::delete($old_file_path);
+            $entered_path = $request->file('file')->store('public'); 
+            $new_movie_data = $request->only(['title', 'type']);
+            $new_movie_data['image_location'] = Storage::url($entered_path);
+            $movie = movies::where('id', $id)
+            ->update($new_movie_data);
+          }
+
+          return ['sucess' => 'movie updated'];
+
     }
 
     /**
