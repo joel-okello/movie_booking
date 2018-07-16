@@ -24,7 +24,7 @@ Auth::routes();
 
 
 Route::post('show_movies_on_shedule', 'BookingController@store');
-
+Route::post('show_serched_movies_on_shedule', 'SheduleController@show_serched_movies_on_shedule');
 Route::get('/show_movies_on_shedule/{id}', 'SheduleController@view_details');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('schedule', 'SheduleController@show_schedule');

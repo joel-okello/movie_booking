@@ -56,7 +56,7 @@ class ScheduleEditer
             $dates = DB::table('schedules')->distinct('schedules.date')
             ->where('movie_id','=',$movie_id)
             ->select('schedules.date')
-            ->orderBy('schedules.date', 'asc')
+            ->orderBy('schedules.date', 'desc')
             ->get()->toArray();
             foreach ($dates as $date) {
                

@@ -123,19 +123,34 @@ class SheduleController extends Controller
         return view('booked_movies',compact('shedule_to_edit','booked_movies'));
     }
 
-   //image based scheduled for users;
+   //image based scheduled for users on index.blade;
     public function show_movies_on_shedule()
     {
          
       $shedulebmgr =  new ScheduleEditer();
       $shedule_to_edit = null;
     
-       $sheduledmovies = $shedulebmgr->show_movies_on_shedule();
+      $sheduledmovies = $shedulebmgr->show_movies_on_shedule();
         
             
         return view('index',compact('shedule_to_edit','sheduledmovies'));
     }
 
+
+
+
+    //image based scheduled for users on index.blade return after searc;
+    public function show_serched_movies_on_shedule()
+    {
+         dd("now showing");
+      $shedulebmgr =  new ScheduleEditer();
+      $shedule_to_edit = null;
+    
+      $sheduledmovies = $shedulebmgr->show_movies_on_shedule();
+        
+            
+        return view('index',compact('shedule_to_edit','sheduledmovies'));
+    }
 
     public function add_movies()
     {

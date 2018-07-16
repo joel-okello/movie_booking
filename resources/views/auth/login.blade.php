@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
 <div class="container">
@@ -59,6 +59,9 @@
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
+                                </a>
+                                <a class="btn btn-link" href="{{ url('register') }}">
+                                    {{ __('Register') }}
                                 </a>
                             </div>
                         </div>

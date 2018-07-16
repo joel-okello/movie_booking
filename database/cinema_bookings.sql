@@ -16,6 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `bookings`
+--
+
+DROP TABLE IF EXISTS `bookings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bookings` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_seat_option` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `second_seat_option` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `shedule_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `status` enum('activated','cancelled','used') COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bookings_shedule_id_foreign` (`shedule_id`),
+  KEY `bookings_user_id_foreign` (`user_id`),
+  CONSTRAINT `bookings_shedule_id_foreign` FOREIGN KEY (`shedule_id`) REFERENCES `schedules` (`id`),
+  CONSTRAINT `bookings_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bookings`
+--
+
+LOCK TABLES `bookings` WRITE;
+/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -27,7 +59,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +68,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',2),(3,'2018_07_10_210053_create_moviestable',2),(6,'2018_07_12_081450_remove_foreign_key_on_scdules',3);
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',2),(3,'2018_07_10_210053_create_moviestable',2),(6,'2018_07_12_081450_remove_foreign_key_on_scdules',3),(7,'2018_07_10_210159_create_bookingstable',4),(8,'2018_07_12_150317_modify_bookings',5);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,7 +85,7 @@ CREATE TABLE `movies` (
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image_location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +94,6 @@ CREATE TABLE `movies` (
 
 LOCK TABLES `movies` WRITE;
 /*!40000 ALTER TABLE `movies` DISABLE KEYS */;
-INSERT INTO `movies` VALUES (1,'Karo Karo','Action','Genama'),(2,'Trail Hell','Action','Yet to come'),(3,'Hell War','Action','get the hell out');
 /*!40000 ALTER TABLE `movies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +137,7 @@ CREATE TABLE `schedules` (
   PRIMARY KEY (`id`),
   KEY `schedules_movie_id_foreign` (`movie_id`),
   CONSTRAINT `schedules_movie_id_foreign` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +146,6 @@ CREATE TABLE `schedules` (
 
 LOCK TABLES `schedules` WRITE;
 /*!40000 ALTER TABLE `schedules` DISABLE KEYS */;
-INSERT INTO `schedules` VALUES (1,'2018-07-13','10:00:00',12000.00,1),(2,'2018-07-14','10:00:00',12300.00,2),(3,'2018-07-16','12:00:00',1200.00,1),(4,'2018-07-15','12:00:00',12000.00,3),(5,'2018-07-17','12:00:00',12000.00,2),(6,'2018-07-18','14:00:00',12000.00,3),(7,'2018-07-15','14:00:00',12000.00,2),(8,'2018-07-16','12:00:00',14000.00,2);
 /*!40000 ALTER TABLE `schedules` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +175,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'okellojoelacaye@gmail.com','okellojoelacaye@gmail.com','$2y$10$F4IPnF7y.y5qSeGMboN4FuPs.6NToCf/UTGZ8kTKtyRRoaB6pAutG',NULL,'2018-07-12 01:24:31','2018-07-12 01:24:31');
+INSERT INTO `users` VALUES (1,'Okello Joel','okellojoelacaye@gmail.com','$2y$10$S/xtFFNM76.B58doKXwTQ.jBGNL7pAolj.oPXM2OQT087XV0547J2',NULL,'2018-07-15 01:08:46','2018-07-15 01:08:46');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -158,4 +188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-12 15:59:32
+-- Dump completed on 2018-07-15  7:25:45
