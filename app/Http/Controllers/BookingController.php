@@ -38,6 +38,9 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
+
+
+      
         $bookingbmgr =  new BookingsEditer();
         $booked_ticket = $bookingbmgr->store($request);
 
@@ -77,7 +80,7 @@ class BookingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd("do somehting here");
     }
 
     /**

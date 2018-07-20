@@ -41,19 +41,11 @@ $(document).ready(function(){
 		    if($(this).hasClass("first"))
 		    {
                 var this_id = this.getAttribute("id");
-                
-
-                
+           
 		    	$(this).removeClass('first');
 		    	$(".second").addClass("first");
 		    	$(".second").removeClass("second");
 		    	document.getElementById("first1").value = "";
-
-		    
-
-
-
-
 		    }
 
 		    else if($(this).hasClass("second"))
@@ -65,19 +57,34 @@ $(document).ready(function(){
 		    	$(this).removeClass('second');
 		    	document.getElementById("first2").value = "";
 		    }
+		     else if($(this).hasClass("third"))
+		    {
+                
+		    	$(this).removeClass('third');
+		    	document.getElementById("first2").value = "";
+		    }
 		    else
 		    {
                
-		    	if ( $( ".first" ).length )
+		    	if ( $( ".first" ).length )// if the number of elemnts with class first
 		    	{
 		   
 
                     if ( $( ".second" ).length )
-		    		{
+		    	    {
 		    		  
-		    		  $(".second").removeClass("second");
+		    		 
 		    		  $(this).addClass("second");
 		    		  document.getElementById("first2").value = this.getAttribute("id");
+		    		}
+
+
+		    		if ( $( ".third" ).length )
+		    	    {
+		    		  
+		    		  $(".third").removeClass("third");
+		    		  $(this).addClass("third");
+		    		  document.getElementById("first3").value = this.getAttribute("id");
 		    		}
 
 		    		else 
@@ -88,11 +95,11 @@ $(document).ready(function(){
 
 		    	}
 
-		    		else
-		    		{
-		    		  document.getElementById("first1").value = this.getAttribute("id");
-		    		  $(this).addClass("first");
-		    		}
+	    		else
+	    		{
+	    		  document.getElementById("first1").value = this.getAttribute("id");
+	    		  $(this).addClass("first");
+	    		}
 		    }
 
 		 
@@ -138,6 +145,7 @@ var selected_tds = [];
   <style>
 .first {background-color: green;}
 .second {background-color: orange;}
+.third {background-color: red;}
 td   {width: 100px; height: 100px; background-color: blue;}
 </style>
    

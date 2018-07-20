@@ -24,7 +24,7 @@
 
  <!--model class  -->
 
-  <div class="modal fade center " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade center " id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -60,6 +60,11 @@
               <label for="message-text" class="col-form-label">Movie Price</label>
               <input type="text" class="form-control" id="movieprice" name="price" value="10,000" readonly="readonly">
             </div>
+
+            <div class="col-md-12">
+              <label for="message-text" class="col-form-label">Number of Seats</label>
+              <input type="number" class="form-control" id="number_of_seats" name="number_of_seats" value="1" >
+            </div>
           </div>
           
           
@@ -67,12 +72,15 @@
               <label for="recipient-name" class="col-form-label">Seat Option One:</label>
           <select class="select2 form-control form-control-lg " name="first_seat_option" style="width: 100%; height: 100%">
             <option value="">Select First Option</option>
-            <option value="LeatBack">Leat Back</option>
+            <optgroup label="Back">
+            <option value="LeatBack">Leaf Back</option>
             <option value="CenterBack">Center Back</option>
             <option value="RightBack">Right Back</option>
+            <optgroup label="Middle">
             <option value="LeftMiddle">Left Middle</option>
             <option value="MiddleMiddle">Middle Middle</option>
             <option value="RightMiddle">Right Middle</option>
+            <optgroup label="Front">
             <option value="LeftFront">Left Front</option>
             <option value="MiddleFront">Middle Front</option>
             <option value="RightFront">Right Front</option>
@@ -84,12 +92,15 @@
               <label for="recipient-name" class="col-form-label">Seat Option Two:</label>
           <select class="select2 form-control form-control-lg " name="second_seat_option" style="width: 100%; height: 100%">
           <option value="">Select Second Option</option>
+          <optgroup label="Back">
            <option value="LeatBack">Leat Back</option>
             <option value="CenterBack">Center Back</option>
             <option value="RightBack">Right Back</option>
+            <optgroup label="Middle">
             <option value="LeftMiddle">Left Middle</option>
             <option value="MiddleMiddle">Middle Middle</option>
             <option value="RightMiddle">Right Middle</option>
+            <optgroup label="Front">
             <option value="LeftFront">Left Front</option>
             <option value="MiddleFront">Middle Front</option>
             <option value="RightFront">Right Front</option>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -22,7 +24,23 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return redirect()->route('show_schedule')->with('success','Movie Added');
+    {   
+        
+       
+
+        if(User::is_bouncer())
+        {
+         return redirect()->route('bouncer');   
+        }
+        if(User::is_admin())
+        {
+         return redirect()->route('show_schedule');   
+        }
+
+        return redirect()->route('show_movies_on_shedule');
     }
+
+
+
+   
 }

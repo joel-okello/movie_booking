@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cinema Show Bookings</title>
+    <title>Bare - Start Bootstrap Template</title>
 
     <!-- Bootstrap core CSS -->
 
@@ -54,20 +54,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{URL('/show_movies_on_shedule')}}">Book Movie
-              
-              </a>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="{{URL('/bouncer')}}">Todays Movies</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{URL('/booked_movies')}}">Booked Movies </a>
+              <a class="nav-link" href="{{URL('/check_ticket')}}">Check Ticket</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{URL('/summary_schedule')}}">Week Schedule</a>
-            </li>
-            
-            
-            
 
             <li class="nav-item dropdown">
     <a class="nav-link" href="{{ route('logout') }}"

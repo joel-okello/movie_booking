@@ -33,10 +33,11 @@ class BookingsEditer
         	'shedule_id' => 'required',
         	'first_seat_option' => 'required',
         	'second_seat_option' => 'required',
+            'number_of_seats'   =>'required',
             ]);
 
 
-        $booking_data = $request->only(['shedule_id', 'first_seat_option', 'second_seat_option']);
+        $booking_data = $request->only(['shedule_id', 'first_seat_option', 'second_seat_option','number_of_seats',]);
         $booking_data['status'] = 'activated';
         $booking_data['user_id'] = Auth::User()->id;
         $booking_data['ticket_number'] = $request->date.Auth::User()->id.$request->shedule_id;

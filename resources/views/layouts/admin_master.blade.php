@@ -54,20 +54,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{{URL('/show_movies_on_shedule')}}">Book Movie
-              
-              </a>
+            
+            
+            <li class="nav-item">
+              <a class="nav-link" href="{{URL('/schedule')}}">Managed Schedules</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{URL('/booked_movies')}}">Booked Movies </a>
+              <a class="nav-link" href="{{URL('/add_movies')}}">Add Movies</a>
             </li>
+            
             <li class="nav-item">
               <a class="nav-link" href="{{URL('/summary_schedule')}}">Week Schedule</a>
             </li>
-            
-            
-            
+            <li class="nav-item">
+              <a class="nav-link" href="{{URL('/sales_in_shows')}}">Sales Per Show</a>
+            </li>
 
             <li class="nav-item dropdown">
     <a class="nav-link" href="{{ route('logout') }}"

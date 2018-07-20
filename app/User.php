@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Auth;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,4 +27,23 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function is_admin()
+    {
+        if(Auth::User()->email =="admin@gmail.com" )
+        {
+         return true;   
+        }
+    }
+
+    public static function is_bouncer()
+    {
+        if(Auth::User()->email =="bouncer@gmail.com" )
+        {
+         return true;   
+        }
+        
+    }
+
+    
 }

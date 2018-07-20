@@ -1,5 +1,5 @@
 
-@extends('layouts.master')
+@extends('layouts.admin_master')
 @section('content')
 
 
@@ -98,7 +98,7 @@
         Update your movie</h5>
         <form method="post" enctype="multipart/form-data" action="{{action('MoviesController@update',$id)}}">
     {{csrf_field()}}
-
+in
             <input type="hidden" name="_method" value="PATCH">
       
              <div class="col-md-12"><br>
@@ -143,6 +143,8 @@
         <th>Movie Type</th>
         <th>Movie Banner</th>
         <th>Edit</th>
+        <th>Add to Schedule</th>
+
         
       </tr>
     </thead>
@@ -160,6 +162,8 @@
         <td><a href="{{$row->image_location}}">Follow link</a></td>
         <td><a href="{{action('MoviesController@edit',$row->id)}}">
           <button type="button" class="btn btn-success" >Edit</button></a></td>
+        <td><a href="{{url('new_shedules',$row->id)}}">
+          <button type="button" class="btn btn-success">Add to Schedule</button></a></td>
         
 
       </tr>

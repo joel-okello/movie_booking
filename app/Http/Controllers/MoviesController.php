@@ -54,7 +54,7 @@ class MoviesController extends Controller
      */
     public function store(Request $request)
     {
-
+       
 
         MoviesEditer::storemovie($request);
         return redirect()->route('add_movies.index')->with('success','Movie Updated');

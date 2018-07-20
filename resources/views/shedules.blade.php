@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.admin_master')
 @section('content')
 
 
@@ -12,7 +12,9 @@
 
 
 
-<div class="float-right shedule"><a type="button" href="{{url('schedule')}}"class="btn btn-primary adding_new" >New Shedule</a></div>
+<div class="float-right shedule">
+  <a type="button" href="{{url('show_schedule')}}"class="btn btn-primary adding_new" >New Shedule</a>
+</div>
 <br>
 <br>
 @if(count($errors)>0)
@@ -37,7 +39,7 @@
       <div class="col-md-3">Movie Title</div>
       <div class="col-md-2"> Price</div>
       <div class="col-md-1">Edit</div>
-      <div class="col-md-2">Delete</div>
+      
 
     </div>
   @if(!$movie_being_edited)
@@ -63,6 +65,7 @@
        <div class="col-md-3">
         <select class="select2 form-control form-control-lg " name="movie_id" style="width: 100%">
           @if($available_movies_to_add)
+          <option value="">Select movie </option>
           @foreach($available_movies_to_add as $movie)
           <option value="{{$movie->id}}">{{$movie->title}}</option>
           @endforeach
@@ -75,7 +78,7 @@
       </div>
      
       <div class="col-md-1">
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="submit" class="btn btn-success">Add</button>
     </div>
     
     </div>
@@ -124,7 +127,7 @@
       </div>
      
       <div class="col-md-1">
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="submit" class="btn btn-success">Update</button>
     </div>
     
     </div>
@@ -145,11 +148,9 @@
             <td>
              <a href="{{action('SheduleController@edit',$row->id)}}">Edit</a>
             </td>
-            <td>
-              <button type="button" class="btn btn-danger">Delete</button>
-            </td>
+            
 
-          </tr
+          </tr>
           @endforeach 
           @endif
           

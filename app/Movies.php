@@ -9,10 +9,8 @@ class Movies extends Model
     //
     public $timestamps = false;
 
- protected $fillable = [
-        'title', 'type', 'image_location',
-    ];
+
                
-            
+       protected $guarded = ['id'];     
  
 }

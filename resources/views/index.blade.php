@@ -37,8 +37,9 @@
 
     <!-- Card image -->
     <div class="view overlay">
+      <a href="{{action('SheduleController@view_details',$row->id)}}">
       <img class="card-img-top" style="height:200px" src="{{$row->image_location}}" 
-           alt="Card image cap">
+           alt="Card image cap"></a>
       <a>
         <div class="mask rgba-white-slight">
           
@@ -50,12 +51,13 @@
     <div class="card-body elegant-color white-text rounded-bottom">
 
       <!-- Social shares button -->
-        <a class="activator waves-effect mr-4">
+      
+        <a  class="activator waves-effect mr-4">
            <i class="fa fa-share-alt white-text">
            </i>
         </a>
         <!-- Title -->
-        <h4 class="card-title">{{$row->title}}</h4>
+        <a href="{{action('SheduleController@view_details',$row->id)}}"><h4 class="card-title">{{$row->title}}</h4></a>
         <hr class="hr-light">
         <!-- Text -->
         <p class="card-text white-text mb-4">Showing on 
@@ -66,7 +68,7 @@
         <!-- Link -->
         <a href="{{action('SheduleController@view_details',$row->id)}}" class="white-text d-flex justify-content-end">
           <h5 >
-              View Details 
+              Details 
           </h5>
         </a>
 

@@ -37,9 +37,13 @@
       <th >Movie Title</th>
       <th >Date</th>
       <th>StartingTime </th>
+      <th>Ticket Number</th>
+      <th>Number of Booked Seats</th>
       <th>Sitting Position</th>
-      <th>View Ticket</th>
-      <th>Request Change</th>
+      <th>Ticket Status</th>
+
+      
+      
       
     </thead>
      
@@ -49,15 +53,13 @@
             <td>{{$row->title}}</td>
             <td>{{$row->date}}</td>
             <td>{{$row->time}}</td>
+            <td>{{$row->id}}</td>
+            <td>{{$row->number_of_seats}}</td>
             <td>{{$row->first_seat_option}}</td>
-            <td>
-              <button type="button" class="btn btn-success" href="#" >Click Here</button>
-            </td>
-            <td>
-              <button type="button" class="btn btn-danger">Delete</button>
-            </td>
+            <td>{{$row->status}}</td>
+            
 
-          </tr
+          </tr>
        
     
  @endforeach

@@ -9,6 +9,8 @@ use DB;
 use DateTime;
 use App\Schedules;
 use Auth;
+use Carbon\Carbon;
+use App\Bookings;
 
 class ScheduleEditer 
 {
@@ -23,6 +25,52 @@ class ScheduleEditer
     {
 
         $sheduledmovies = DB::table('movies')->distinct('movie_id')
+            ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
+            ->join('schedules', 'schedules.movie_id', '=', 'movies.id')
+            ->select( 'movies.id')
+            ->groupBy('movies.id')
+            ->get()->toArray();
+        
+            foreach($sheduledmovies as $row){
+            $row->dates =  $this->get_dates_for_movies($row->id);
+            $row->image_location = Movies::find($row->id)->image_location;
+            $row->title = Movies::find($row->id)->title;
+
+            }
+                     
+        
+           foreach($sheduledmovies as $row)
+           {
+            foreach ($row->dates as $key => $date) {
+                $row->dates[$key] = $this->format_to_date($date);
+            }
+            
+           }
+           
+           return $sheduledmovies;
+    }
+
+
+
+     public function get_schedule_time_for_movie_on_a_date($movie_id,$date)
+    {
+
+        $sheduled_times = DB::table('schedules')
+            ->whereDate('schedules.date','=',$date)
+            ->where('schedules.movie_id','=',$movie_id)
+            ->select( 'schedules.id','schedules.time','schedules.price','schedules.date','schedules.movie_id')
+            ->orderBy('schedules.time', 'asc')
+            ->get()->toArray();
+            return $sheduled_times;
+    }
+
+
+
+    public function show_searched_movies($search_query)
+    {
+
+        $sheduledmovies = DB::table('movies')->distinct('movie_id')
+            
             ->whereDate('schedules.date','>',date('Y-m-d'))
             ->join('schedules', 'schedules.movie_id', '=', 'movies.id')
             ->select( 'movies.id')
@@ -55,8 +103,9 @@ class ScheduleEditer
             $array_of_dates = [];
             $dates = DB::table('schedules')->distinct('schedules.date')
             ->where('movie_id','=',$movie_id)
+            ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
             ->select('schedules.date')
-            ->orderBy('schedules.date', 'desc')
+            ->orderBy('schedules.date', 'asc')
             ->get()->toArray();
             foreach ($dates as $date) {
                
@@ -68,15 +117,32 @@ class ScheduleEditer
 
     }
 
+    public static function show_schedule_of_today()
+    {
+         $sheduledmoviestoday = DB::table('schedules')
+            ->whereDate('schedules.date', '=', Carbon::today()->toDateString())
+            ->join('movies', 'schedules.movie_id', '=', 'movies.id')
+            ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','schedules.id','schedules.being_verified')
+            ->orderBy('schedules.time','desc')
+            ->get()->toArray();
 
+         return ['sheduledmoviestoday'=>$sheduledmoviestoday, 
+                   ];  
+
+    }
 
     public function get_details_for_movie($movie_id)
     {
+
+       
            $shedule_info = DB::table('movies')->where('movies.id','=',$movie_id)
             ->join('schedules', 'schedules.movie_id', '=', 'movies.id')
+            ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
             ->select('schedules.movie_id','movies.title', 'schedules.date', 'schedules.time','schedules.price','schedules.id','movies.image_location')
             ->orderBy('schedules.date', 'asc')
             ->get()->toArray();
+
+          
 
 
             foreach ($shedule_info as $shedule_row) {
@@ -89,9 +155,123 @@ class ScheduleEditer
                'schedule_info' => $shedule_info,
                'movie_data' => $movie_data 
 
+
             ];
 
     }
+
+
+
+     public function all_dates_btn($start_date,$end_date)
+    {
+     $all_dates_btn = null;  
+     if($start_date>$end_date)
+        return $all_dates_btn;
+     $days_btn_dates = $start_date->diffInDays($end_date);
+     $all_dates_btn = [];
+     array_push($all_dates_btn,$start_date->format('Y-m-d'));
+     
+     for($counter = 0;$counter<$days_btn_dates;$counter++)
+     {
+       array_push($all_dates_btn,($start_date->addDay())->format('Y-m-d'));
+     }
+
+
+     for($counter = 0;$counter<sizeof($all_dates_btn);$counter++)
+     {
+       $all_dates_btn[$counter] = $this->format_to_date($all_dates_btn[$counter]);
+     }
+     
+     return $all_dates_btn;
+            
+
+    }
+
+
+
+
+
+    public function all_dates_in_week($start_date)
+    {
+     $all_dates_btn = null;  
+     $days_btn_dates = 6;
+     $all_dates_btn = [];
+     array_push($all_dates_btn,$start_date->format('Y-m-d'));
+     
+     for($counter = 0;$counter<$days_btn_dates;$counter++)
+     {
+       array_push($all_dates_btn,($start_date->addDay())->format('Y-m-d'));
+     }
+
+
+     for($counter = 0;$counter<sizeof($all_dates_btn);$counter++)
+     {
+       $all_dates_btn[$counter] = $this->format_to_date($all_dates_btn[$counter]);
+     }
+     
+     return $all_dates_btn;
+            
+
+    }
+
+
+
+
+    public function summarise_movie_shows_in_week($start_date)
+    {
+
+
+
+      $all_dates_in_range = $this->all_dates_in_week($start_date);   
+      $movies = DB::table('movies')->distinct('movie_id')->get()->toArray();
+
+         
+     $schedule_for_dates = [];
+     $movies_array = [];
+     foreach ($movies as $key => $movie ) 
+     {
+         $movies_array[$key]= $movie;
+
+        foreach ($all_dates_in_range as $keys => $date) 
+        {
+           
+
+         $schedule_for_dates[$key][$keys] = $this->check_if_there_exists_given_movie_on_date($date,$movie->id);
+        }
+
+
+
+         
+      }
+
+
+      return [ 'showing_status_per_movie' => $schedule_for_dates,
+                 'movies'                 => $movies,
+                 'all_dates_in_range'     => $all_dates_in_range,
+
+                ];
+
+    }
+
+
+
+     public function check_if_there_exists_given_movie_on_date($date,$movie_id)
+    {
+
+     $movie_on_schedule = DB::table('schedules')
+            ->where('schedules.date','=',$date->format('Y-m-d'))
+            ->where('schedules.movie_id','=',$movie_id)
+            ->select('schedules.date','schedules.movie_id')
+            ->get()->first();
+     if($movie_on_schedule)
+        return true;
+     else
+        return false;
+
+    }
+
+
+
 
 
     public function format_to_date($string)
@@ -112,6 +292,7 @@ class ScheduleEditer
         $Shedule_info = DB::table('schedules')->distinct('schedules.date')
             ->where('schedules.id','=',$shedule_id)
             ->join('movies', 'schedules.movie_id', '=', 'movies.id')
+            ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
             ->select('schedules.id','schedules.date','schedules.time','schedules.price','schedules.movie_id','movies.title','movies.type','movies.image_location')
             ->first();            
            return $Shedule_info;
@@ -120,13 +301,65 @@ class ScheduleEditer
     }
 
 
+
+     public function sales_per_show()
+    {
+        
+        $Shedule_info = DB::table('schedules')->distinct('schedules.id')
+            ->join('movies', 'schedules.movie_id', '=', 'movies.id')
+            ->join('bookings','schedules.id','=','bookings.shedule_id')
+            ->whereDate('schedules.date', '<=', Carbon::today()->toDateString())
+            ->select('schedules.id','schedules.date','schedules.time','schedules.price','schedules.movie_id','movies.title')
+            ->get()
+            ->toArray();
+  
+        foreach ($Shedule_info as $key => $show) {
+            $show ->seats_sold = $this->booked_tickets_in_specific_show($show->id);
+        }
+
+             
+       return $Shedule_info;
+
+
+    }
+
+
+    public function booked_tickets_in_specific_show($schedule_id)
+    {
+        
+        $seats_booked_for_schedule = DB::table('bookings')
+            ->where('bookings.shedule_id', '=',$schedule_id)
+            ->sum('bookings.number_of_seats');
+
+            
+            //->get();  
+
+
+                 
+           return $seats_booked_for_schedule;
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+    
+
     public static function show_schedule_of_movies()
     {
         
         $sheduledmovies = DB::table('schedules')
             ->join('movies', 'schedules.movie_id', '=', 'movies.id')
             ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','schedules.id')
-            ->orderBy('schedules.id','desc')
+            ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
+            ->orderBy('schedules.date','desc','schedules.time','desc')
             ->get()->toArray();
         $shedule_to_edit = null;
         $available_movies_to_add = DB::table('movies')
@@ -151,7 +384,9 @@ class ScheduleEditer
         $booked_movies = DB::table('bookings')->where('user_id', Auth::User()->id)
            ->join('schedules','bookings.shedule_id','=','schedules.id')
            ->join('movies', 'schedules.movie_id', '=', 'movies.id')
-           ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','bookings.first_seat_option')
+           ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
+           ->orderBy('schedules.date','asc','schedules.time','desc')
+           ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','bookings.first_seat_option','bookings.number_of_seats','bookings.id','bookings.status')
             ->get()->toArray();        
     
 
@@ -198,10 +433,47 @@ class ScheduleEditer
                                     ]);  
 
         $schedule_data = $request->only(
-               ['date', 'time', 'price','movie_id','file']);
+               ['date', 'time', 'price','movie_id',]);
         $new_shedule = Schedules::create($schedule_data);
         return ['success' => 'success'];
 
+    }
+
+
+
+    public static function store_dates_shedule(Request $request)
+    {
+        
+        $request->validate(
+            ['time_hrs' => 'required', 
+             'time_min' => 'required',
+             'time_am_pm' => 'required',
+             'price' => 'required',
+             'movie_id' => 'required',
+             'date'=>'required',
+                                    ]);  
+        // dd($request->all());
+
+
+        // id | date       | time     | price    | movie_id | being_verified
+
+
+        $request["time"] = ScheduleEditer::process_time($request->time_hrs,$request->time_min,$request->time_am_pm);
+        $schedule_data = $request->only(
+               ['date', 'time', 'price','movie_id']);
+        $new_shedule = Schedules::create($schedule_data);
+        return ['success' => 'success'];
+
+    }
+
+
+
+
+    public static function process_time($time_hrs,$time_min,$time_am_pm)
+    {  if(($time_am_pm)=="PM")
+        $time_hrs = $time_hrs + 12;
+        $time = $time_hrs.":".$time_min;
+        return $time;
     }
 
     /**
@@ -233,14 +505,60 @@ class ScheduleEditer
     }
 
 
-    public static function update_shedules($request,$id){
+    
 
+    public static function check_ticket(Request $request)
+    {
+        $number_booked = 0;
+        $ticket_being_check = null;
+        $status = 'Ticket does not exist';
+        $ticket = Bookings::find($request->id);
+        
+
+        if($ticket)
+        {
+        $status = 'Ticket is exists';
+        $number_booked = $ticket->number_of_seats; 
+        $ticket_number = $ticket->ticket_number;
+        
+        $ticket_being_check = Bookings::where('bookings.id','=',$request->id)
+                  ->join('schedules','bookings.shedule_id','=','schedules.id')
+                  ->where('bookings.status','=','activated')
+                  ->select('bookings.id','bookings.number_of_seats')
+                  ->get()->toArray();
+        $status = $ticket->status;
+        }
+        
+    
+
+        //ticket exixts and is being checked set ticket to used
+        if($ticket&&$ticket_being_check){
+        $ticket->status = 'used';
+        $ticket->save();}
+
+       
+        
+        return ['status' => $status,
+                 'number' => $number_booked,
+                   ];
+        
+    }
+
+
+    public static function update_shedules($request,$id)
+    {
+      if($request->time =="Start Time")
+          {
+            $request->time = "";
+          }
+       
        $request->validate(
             ['date' => 'required', 
-             'time' => 'required',
+             'time' => 'required|integer',
              'price' => 'required',
              'movie_id' => 'required',
                                     ]);  
+
 
         $new_schedule_data = $request->only(
                ['date', 'time', 'price','movie_id','file']);
@@ -252,7 +570,7 @@ class ScheduleEditer
 
     
 
-}
+    }
 
     /**
      * Update the specified resource in storage.
