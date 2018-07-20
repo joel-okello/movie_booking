@@ -105,11 +105,11 @@
        <div class="col-md-2">
         <select class="custom-select" value="{{$movie_being_edited->name}}" name="time" style="padding:0px;margin: 0px">
           <option selected>Start Time</option>
-          <option value="10:00">10:00am</option>
-          <option value="12:00">12:00am</option>
-          <option value="14:00">2:00pm</option>
-          <option value="18:00">6:00pm</option>
-          <option value="22:00">10:00pm</option>
+          <option value="10">10:00am</option>
+          <option value="12">12:00am</option>
+          <option value="14">2:00pm</option>
+          <option value="18">6:00pm</option>
+          <option value="22">10:00pm</option>
          </select>
        </div>
        <div class="col-md-3">

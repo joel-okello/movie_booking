@@ -119,10 +119,21 @@ class SheduleController extends Controller
     {
         $shedulebmgr =  new ScheduleEditer();
         $selected_movie_details = $shedulebmgr->get_details_for_movie($id);
+
         $selected_movie_shedules = $selected_movie_details['schedule_info'];
         $selected_movie_data = $selected_movie_details['movie_data'];
 
-        return view('movies_details',compact('selected_movie_data','selected_movie_shedules'));
+        $dates_movie_is_showing = $shedulebmgr->get_dates_for_movies($id);
+        $dates_movie_is_showing_obj = [];
+        foreach ($dates_movie_is_showing as $key => $value) {
+            array_push($dates_movie_is_showing_obj, $shedulebmgr->format_to_date($value));
+        }
+        
+
+      
+
+
+        return view('movies_details',compact('dates_movie_is_showing_obj','selected_movie_data','selected_movie_shedules'));
 
     }
 
@@ -163,7 +174,7 @@ class SheduleController extends Controller
       $shedule_to_edit = null;
     
       $sheduledmovies = $shedulebmgr->show_movies_on_shedule();
-        
+     
             
       return view('index',compact('shedule_to_edit','sheduledmovies'));
     }

@@ -229,7 +229,7 @@ class ScheduleEditer
      $schedule_for_dates = [];
      $movies_array = [];
      foreach ($movies as $key => $movie ) 
-     {
+     {   
          $movies_array[$key]= $movie;
 
         foreach ($all_dates_in_range as $keys => $date) 
@@ -244,11 +244,60 @@ class ScheduleEditer
          
       }
 
+      $filtered_data = $this->remove_movies_that_wont_be_shown($movies,$schedule_for_dates);
+      $schedule_for_dates = $filtered_data['shedule_for_movies']; 
+      $movies = $filtered_data['movies_array'];
+
+      
+
+      
+
+
 
       return [ 'showing_status_per_movie' => $schedule_for_dates,
                  'movies'                 => $movies,
                  'all_dates_in_range'     => $all_dates_in_range,
 
+                ];
+
+    }
+
+
+
+    public function remove_movies_that_wont_be_shown($movies_array,$shedule_for_movies)
+    {
+
+       
+    $index_with_no_single_true = [];
+
+
+
+
+     foreach ($movies_array as $key => $movie) 
+     {
+         if (in_array(true, $shedule_for_movies[$key]))
+         {
+           
+         }
+         else
+         {
+          array_push($index_with_no_single_true,$key); 
+         }
+
+
+     }
+      
+    $counter = 0;
+    foreach ($index_with_no_single_true as $key => $value) 
+    {
+
+    array_splice($movies_array,$value-$counter, 1);
+    array_splice($shedule_for_movies,$value-$counter,1);
+    $counter++;
+    }
+
+     return [ 'movies_array'=>$movies_array,
+              'shedule_for_movies' =>$shedule_for_movies,
                 ];
 
     }
@@ -269,6 +318,9 @@ class ScheduleEditer
         return false;
 
     }
+
+
+
 
 
 

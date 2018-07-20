@@ -162,7 +162,7 @@ in
         <td><a href="{{$row->image_location}}">Follow link</a></td>
         <td><a href="{{action('MoviesController@edit',$row->id)}}">
           <button type="button" class="btn btn-success" >Edit</button></a></td>
-        <td><a href="{{url('new_shedules',$row->id)}}">
+        <td><a href="{{url('show_schedule')}}">
           <button type="button" class="btn btn-success">Add to Schedule</button></a></td>
         
 

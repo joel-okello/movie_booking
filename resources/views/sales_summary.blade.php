@@ -24,6 +24,7 @@
       <th>Movie Price</th>
       <th>Show Time</th>
       <th>Number of Sold Seats</th>
+      <th>Total Returns</th>
 
     </tr>
   </thead>
@@ -36,6 +37,7 @@
       <td>{{$show->price}}</td>
       <td>{{$show->time}}</td>
       <td>{{$show->seats_sold}}</td>
+      <td>{{$show->seats_sold*$show->price}}</td>
     </tr>
     @endforeach
     
