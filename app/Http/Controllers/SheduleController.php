@@ -52,10 +52,10 @@ class SheduleController extends Controller
     public function store(Request $request)
     {
 
-      dd($request->all());
+      
         
         ScheduleEditer::store_shedule($request);
-        return redirect()->route('add_movies.index')->with('success','Movie has been sheduled');
+        return redirect()->route('schedule')->with('success','Movie has been sheduled');
     }
 
 
@@ -221,10 +221,6 @@ class SheduleController extends Controller
     }
 
 
-    public function check_form(Request $request){
-         dd($request->all());
-
-    }
 
     public function summary_schedule()
 

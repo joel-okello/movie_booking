@@ -181,12 +181,12 @@ $( ".start_checking_movie" ).on('click', function() {
         success: function(response,status) {
 
           console.log('response=', response);
-     alert("Successfully added to schedule");
+     console.log("Successfully added to schedule");
          
               
         },
         error: function(xhr,status) {
-          alert("Data: "+xhr+status);
+          console.log("Data: "+xhr+status);
         }
       });
     

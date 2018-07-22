@@ -366,7 +366,7 @@ class ScheduleEditer
         $Shedule_info = DB::table('schedules')->distinct('schedules.id')
             ->join('movies', 'schedules.movie_id', '=', 'movies.id')
             ->join('bookings','schedules.id','=','bookings.shedule_id')
-            ->whereDate('schedules.date', '<=', Carbon::today()->toDateString())
+            //->whereDate('schedules.date', '<=', Carbon::today()->toDateString())
             ->select('schedules.id','schedules.date','schedules.time','schedules.price','schedules.movie_id','movies.title')
             ->get()
             ->toArray();
@@ -483,13 +483,13 @@ class ScheduleEditer
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public static function store_shedule(Request $request)
+    public static function store_shedule($request)
     {
 
         if($request->has('movie_id1'))
         {  //form two has been submitted
-
-            $request['movie_id'] = $request->movie_id;
+         
+            $request['movie_id'] = $request->movie_id1;
 
         }
        

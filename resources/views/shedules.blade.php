@@ -57,6 +57,7 @@
           
           <div class="movie_id">
             <label for="message-text" class="col-form-label">Select a movie</label>
+
            <select class="select2 form-control form-control-lg hide_if_old"
            id="movie_id1" name="movie_id1" style="width: 100%">
             @if($available_movies_to_add)
@@ -198,7 +199,10 @@
        </div>
        <div class="col-md-3">
         <select class="select2 form-control form-control-lg"
-         id="test" name="movie_id" style="width: 100%">
+         id="
+
+
+         " name="movie_id" style="width: 100%">
           @if($available_movies_to_add)
           @foreach($available_movies_to_add as $movie)
           <option value="{{$movie->id}}">{{$movie->title}}</option>
@@ -298,22 +302,17 @@
 
 
         $(".adding_to_schedule" ).on( "click", function() 
-    {
-      
-      
-     // document.getElementById("movie_day").value = this.getAttribute('date');
-
-    
-      //document.getElementByClassN("movie_day").value = this.getAttribute('date');
-   
-      
+    {      
       //try set the date picker date to the selected row's date 
       $('#datepicker1').val(this.getAttribute('date'));
+      $('#movie_id1').val(this.getAttribute('movie_id'));
      
-      if($('#movie_id').val())
+     
+      if($('#movie_id1').val())
       {
+        
         $('.modal-title').text("Schedule "+this.getAttribute('title'));
-        $('#movie_id').val(this.getAttribute('movie_id'));
+        
         $('.movie_id').hide()
       }
       else
@@ -325,8 +324,6 @@
   
       $('#schedule_button_clicked').modal();
       
-      
-
   
     });
 
@@ -337,17 +334,12 @@
          $(".adding_new_to_schedule" ).on( "click", function() 
     {
       
-      
-     // document.getElementById("movie_day").value = this.getAttribute('date');
-
-    
-      //document.getElementByClassN("movie_day").value = this.getAttribute('date');
-      alert("hello men");
+     
       $('.modal-title').text("Schedule "+this.getAttribute('title'));
-      alert(this.getAttribute('movie_id'));
+      
       $('#movie_id').val(this.getAttribute('movie_id'));
       $('#datepicker1').val(this.getAttribute('date'));
-      alert($('#movie_id').val());
+      
 
   
       $('#schedule_new_button_clicked').modal();

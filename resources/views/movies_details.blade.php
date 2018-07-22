@@ -131,7 +131,7 @@
     <div class="col-md-4">
 
         <img class="card-img-top" 
-              src="{{$selected_movie_data['image_location']}}" 
+              src="{{Storage::url($selected_movie_data['image_location'])}}" 
               alt="Card image cap">
         
     </div>
