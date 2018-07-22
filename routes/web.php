@@ -21,7 +21,7 @@ Route::get('check_forms1',function(){
 Route::get('check_form','SheduleController@check_form')->name('check_form');
 Route::get('check_form1','SheduleController@check_form')->name('check_form1');
 
-Route::post('adding_to_schedule','SheduleController@adding_to_schedule');
+
 Route::get('redisplay_schedule/{id}/{first_date}/{last_name}','SheduleController@redisplay_schedule')->name('redisplay_schedule');
 
 
@@ -48,6 +48,11 @@ Route::get('verify_ticket','SheduleController@verify_ticket');
 Route::get('/', 'HomeController@index')->name('home');
 
 
+Route::get('qr-code', function () 
+{
+  return QRCode::text('QR Code Generator for Laravel!')->png();    
+});
+
 Auth::routes();
 
 Route::get('table', function () {
@@ -66,7 +71,7 @@ Route::post('show_movies_on_shedule', 'BookingController@store');
 
 Route::get('/show_movies_on_shedule/{id}', 'SheduleController@view_details');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('schedule', 'SheduleController@show_schedule');
+Route::get('schedule', 'SheduleController@show_schedule')->name('schedule');
 Route::get('/booked_movies', 'SheduleController@show_user_booked_movies')->name('booked_movies');
 
 Route::get('bouncer', 'SheduleController@show_bouncer_interface')->name('bouncer');

@@ -38,7 +38,7 @@
     <!-- Card image -->
     <div class="view overlay">
       <a href="{{action('SheduleController@view_details',$row->id)}}">
-      <img class="card-img-top" style="height:200px" src="{{$row->image_location}}" 
+      <img class="card-img-top" style="height:200px" src="{{Storage::url($row->image_location)}}" 
            alt="Card image cap"></a>
       <a>
         <div class="mask rgba-white-slight">

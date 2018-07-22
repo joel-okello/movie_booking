@@ -21,6 +21,9 @@
  
      <script src="{{ asset('js/popper.js/1.14.3/umd/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+
+   
    
 
 
@@ -97,6 +100,8 @@
 
 <link rel="stylesheet" href="{{ asset('css/zebra_datepicker.min.css') }}">
 <link href="{{ asset('select2/css/select2.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+
 
 
 <script type="text/javascript">
@@ -116,12 +121,6 @@ $(document).ready(function() {
    $("#ticket_passed").hide();
    $("#ticket_failed").hide();
 
-
-// // prevent changing weeks and months
-// var weekOptions = { "changeMonth": false, "changeYear": false, "stepMonths": 0, beforeShowDay: function (date) {
-//     return [date.getDay() == 1, ''];
-//   } 
-// };
 
 
 
@@ -241,6 +240,15 @@ $( "#submit_ticket_number" ).on('click', function() {
    });
     
  });
+
+
+
+$(document).ready(function() {
+    $('.table').DataTable();
+
+} );
+
+
 
 
 

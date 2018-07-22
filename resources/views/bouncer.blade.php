@@ -9,8 +9,9 @@
   </div>     
 </div>
 
-
-
+@if(isset($varname))
+{{dd(Session::all(),$varname)}}
+@endif
 
 @if(count($errors)>0)
     <div class="alert alert-danger alert-dismissable">
@@ -33,7 +34,7 @@
   
 
 
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" id="table">
         <thead>
           <th>Movie Title</th>
           <th>Movie Date</th>

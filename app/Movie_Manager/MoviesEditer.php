@@ -21,7 +21,10 @@ class MoviesEditer
     {
 
           
-        $movies = DB::table('movies')->get()->toArray();
+        $movies = DB::table('movies')
+                   ->where('deleted','=','no')
+                   ->get()
+                   ->toArray();
      
         $movie = null;
         return ['movie' => $movie,
@@ -50,7 +53,8 @@ class MoviesEditer
         
         $request->validate(['title' => 'required', 'type' => 'required','file'=> 'required']);    
         $movie_data = $request->only(['title', 'type', 'image_location']);
-        $movie_data['image_location'] = Storage::url($request->file('file')->store('public')); 
+        $movie_data['image_location'] = $request->file('file')->store('public'); 
+        //$movie_data['image_location'] = Storage::url($request->file('file')->store('public')); 
         $movie = Movies::create($movie_data);
         return redirect()->route('add_movies.index')->with('success','Movie Added');
 
@@ -79,7 +83,9 @@ class MoviesEditer
 
 
         $movie = movies::find($id);
-        $movies = movies::all();
+        $movies = movies::where('deleted','=','no')
+                 ->get();
+                 
         return ['movie'=>$movie,
                  'movies' => $movies];
         
@@ -108,7 +114,8 @@ class MoviesEditer
             Storage::delete($old_file_path);
             $entered_path = $request->file('file')->store('public'); 
             $new_movie_data = $request->only(['title', 'type']);
-            $new_movie_data['image_location'] = Storage::url($entered_path);
+            //$new_movie_data['image_location'] = Storage::url($entered_path);
+            $new_movie_data['image_location'] = $entered_path;
             $movie = movies::where('id', $id)
             ->update($new_movie_data);
           }

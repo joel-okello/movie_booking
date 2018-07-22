@@ -15,8 +15,8 @@
   </div>     
 </div>
 <div class="row">
-  
- <table class="table table-striped">
+ <div class="col-md-12">
+ <table class="table table-striped table-hover" style="width: 100%">
   <thead>
     <tr>
       <th>Show Date</th>
@@ -43,6 +43,7 @@
     
   </tbody>
 </table>
+</div>
 </div>
 </div>
 

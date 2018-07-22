@@ -25,6 +25,7 @@ class ScheduleEditer
     {
 
         $sheduledmovies = DB::table('movies')->distinct('movie_id')
+            ->where('movies.deleted','=','no')
             ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
             ->join('schedules', 'schedules.movie_id', '=', 'movies.id')
             ->select( 'movies.id')
@@ -103,6 +104,7 @@ class ScheduleEditer
             $array_of_dates = [];
             $dates = DB::table('schedules')->distinct('schedules.date')
             ->where('movie_id','=',$movie_id)
+            ->where('schedules.deleted','=','no')
             ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
             ->select('schedules.date')
             ->orderBy('schedules.date', 'asc')
@@ -223,7 +225,10 @@ class ScheduleEditer
 
 
       $all_dates_in_range = $this->all_dates_in_week($start_date);   
-      $movies = DB::table('movies')->distinct('movie_id')->get()->toArray();
+      $movies = DB::table('movies')
+                ->where('deleted','=','no')
+                ->get()
+                ->toArray();
 
          
      $schedule_for_dates = [];
@@ -309,6 +314,7 @@ class ScheduleEditer
 
      $movie_on_schedule = DB::table('schedules')
             ->where('schedules.date','=',$date->format('Y-m-d'))
+            ->where('schedules.deleted','=','no')
             ->where('schedules.movie_id','=',$movie_id)
             ->select('schedules.date','schedules.movie_id')
             ->get()->first();
@@ -409,13 +415,16 @@ class ScheduleEditer
         
         $sheduledmovies = DB::table('schedules')
             ->join('movies', 'schedules.movie_id', '=', 'movies.id')
-            ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','schedules.id')
+            ->select('movies.title','schedules.movie_id','schedules.date', 'schedules.time','schedules.price','schedules.id')
             ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
+            ->where('movies.deleted', '=', 'no')
+            ->where('schedules.deleted', '=', 'no')
             ->orderBy('schedules.date','desc','schedules.time','desc')
             ->get()->toArray();
         $shedule_to_edit = null;
         $available_movies_to_add = DB::table('movies')
             ->select('movies.id','movies.title')
+            ->where('movies.deleted', '=', 'no')
             ->get()->toArray();          
     
 
@@ -476,27 +485,16 @@ class ScheduleEditer
      */
     public static function store_shedule(Request $request)
     {
-        
-        $request->validate(
-            ['date' => 'required', 
-             'time' => 'required',
-             'price' => 'required',
-             'movie_id' => 'required',
-                                    ]);  
 
-        $schedule_data = $request->only(
-               ['date', 'time', 'price','movie_id',]);
-        $new_shedule = Schedules::create($schedule_data);
-        return ['success' => 'success'];
+        if($request->has('movie_id1'))
+        {  //form two has been submitted
 
-    }
+            $request['movie_id'] = $request->movie_id;
 
-
-
-    public static function store_dates_shedule(Request $request)
-    {
-        
-        $request->validate(
+        }
+       
+              
+       $request->validate(
             ['time_hrs' => 'required', 
              'time_min' => 'required',
              'time_am_pm' => 'required',
@@ -504,19 +502,19 @@ class ScheduleEditer
              'movie_id' => 'required',
              'date'=>'required',
                                     ]);  
-        // dd($request->all());
-
-
-        // id | date       | time     | price    | movie_id | being_verified
-
 
         $request["time"] = ScheduleEditer::process_time($request->time_hrs,$request->time_min,$request->time_am_pm);
         $schedule_data = $request->only(
                ['date', 'time', 'price','movie_id']);
         $new_shedule = Schedules::create($schedule_data);
+
         return ['success' => 'success'];
 
+
     }
+
+
+
 
 
 
@@ -536,7 +534,7 @@ class ScheduleEditer
      */
     public function show($id)
     {
-        dd("show");
+        
     }
 
     /**
@@ -550,10 +548,6 @@ class ScheduleEditer
 
 
 
-        $movie = movies::find($id);
-        $movies = movies::all();
-        return view('add_movie',compact('movie','movies','id'));
-        
     }
 
 
@@ -573,6 +567,7 @@ class ScheduleEditer
         $number_booked = $ticket->number_of_seats; 
         $ticket_number = $ticket->ticket_number;
         
+        //check if tcket is used
         $ticket_being_check = Bookings::where('bookings.id','=',$request->id)
                   ->join('schedules','bookings.shedule_id','=','schedules.id')
                   ->where('bookings.status','=','activated')
@@ -583,7 +578,7 @@ class ScheduleEditer
         
     
 
-        //ticket exixts and is being checked set ticket to used
+        //ticket exixts and is not used
         if($ticket&&$ticket_being_check){
         $ticket->status = 'used';
         $ticket->save();}
@@ -599,17 +594,16 @@ class ScheduleEditer
 
     public static function update_shedules($request,$id)
     {
-      if($request->time =="Start Time")
-          {
-            $request->time = "";
-          }
-       
-       $request->validate(
-            ['date' => 'required', 
-             'time' => 'required|integer',
+      $request->validate(
+            ['time_hrs' => 'required', 
+             'time_min' => 'required',
+             'time_am_pm' => 'required',
              'price' => 'required',
              'movie_id' => 'required',
+             'date'=>'required',
                                     ]);  
+
+        $request["time"] = ScheduleEditer::process_time($request->time_hrs,$request->time_min,$request->time_am_pm); 
 
 
         $new_schedule_data = $request->only(
@@ -618,7 +612,8 @@ class ScheduleEditer
             ->update( $new_schedule_data);
 
 
-        return ['success' => 'success'];
+
+        return ['success' => 'schedule updated succesfully'];
 
     
 
@@ -633,6 +628,7 @@ class ScheduleEditer
      */
     public function update(Request $request, $id)
     {
+        dd("update in ScheduleEditer");
          $new_movie_data = $request->only(['title', 'type', 'image_location']);
          $movie = movies::where('id', $id)
           ->update($new_movie_data);
@@ -647,8 +643,9 @@ class ScheduleEditer
      */
     public function destroy($id)
     {
-        $movies = movies::find($id);
-        $movies ->delete();
-        return redirect()->route('add_movies.index')->with('success','Movie Deleted sucessfully');
+        $schedule = schedules::find($id);
+        $schedule->deleted = "yes";
+        $schedule ->save();
+        return redirect()->route('add_movies.index')->with('success','Schedule Deleted sucessfully');
     }
 }

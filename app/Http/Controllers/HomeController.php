@@ -30,7 +30,8 @@ class HomeController extends Controller
 
         if(User::is_bouncer())
         {
-         return redirect()->route('bouncer');   
+           
+         return redirect()->route('bouncer');  
         }
         if(User::is_admin())
         {

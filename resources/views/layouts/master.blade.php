@@ -124,12 +124,6 @@ $(document).ready(function() {
    $("#ticket_failed").hide();
 
 
-// // prevent changing weeks and months
-// var weekOptions = { "changeMonth": false, "changeYear": false, "stepMonths": 0, beforeShowDay: function (date) {
-//     return [date.getDay() == 1, ''];
-//   } 
-// };
-
 
 
 

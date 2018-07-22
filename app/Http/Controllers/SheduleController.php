@@ -51,6 +51,8 @@ class SheduleController extends Controller
      */
     public function store(Request $request)
     {
+
+      dd($request->all());
         
         ScheduleEditer::store_shedule($request);
         return redirect()->route('add_movies.index')->with('success','Movie has been sheduled');
@@ -112,6 +114,7 @@ class SheduleController extends Controller
     public function update(Request $request, $id)
     {
       $data_of_schedules = ScheduleEditer::update_shedules($request, $id);
+      return redirect()->route('schedule')->with('success','Shedule has been updated sucessfully');
  
     }
 
@@ -266,7 +269,11 @@ class SheduleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $schedule = schedules::find($id);
+        $schedule->deleted = 'yes';
+        $schedule->save();
+                
+        return redirect()->route('schedule')->with('success','Show Deleted sucessfully');
     }
 
 

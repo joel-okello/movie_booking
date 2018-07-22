@@ -57,7 +57,7 @@ class MoviesController extends Controller
        
 
         MoviesEditer::storemovie($request);
-        return redirect()->route('add_movies.index')->with('success','Movie Updated');
+        return redirect()->route('add_movies.index')->with('success','Movie added sucessfully');
 
     }
 
@@ -113,7 +113,9 @@ class MoviesController extends Controller
     public function destroy($id)
     {
         $movies = movies::find($id);
-        $movies ->delete();
+        $movies->deleted = 'yes';
+        $movies->save();
+                
         return redirect()->route('add_movies.index')->with('success','Movie Deleted sucessfully');
     }
 }
