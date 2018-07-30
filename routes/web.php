@@ -67,11 +67,12 @@ Route::post('seats_option', 'BookingController@store');
 
 
 
-Route::post('show_movies_on_shedule', 'BookingController@store');
+Route::post('book_movie', 'BookingController@store');
 
 Route::get('/show_movies_on_shedule/{id}', 'SheduleController@view_details');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('schedule', 'SheduleController@show_schedule')->name('schedule');
+Route::get('checking/{id}', 'SheduleController@start_checking');
 Route::get('/booked_movies', 'SheduleController@show_user_booked_movies')->name('booked_movies');
 
 Route::get('bouncer', 'SheduleController@show_bouncer_interface')->name('bouncer');

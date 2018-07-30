@@ -50,19 +50,19 @@
           </button>
         </div>
         <div class="modal-body">
-
+       
           
           <form id="form1" name="form1" method="post" action="{{url('schedules')}}">
             {{csrf_field()}}
           
           <div class="movie_id">
             <label for="message-text" class="col-form-label">Select a movie</label>
-
+   
            <select class="select2 form-control form-control-lg hide_if_old"
            id="movie_id1" name="movie_id1" style="width: 100%">
             @if($available_movies_to_add)
             @foreach($available_movies_to_add as $movie)
-            <option value="{{$movie->id}}">{{$movie->title}}</option>
+            <option value="{{$movie->id}}" @if($movie->title){{$movie->title}} @endif>{{$movie->title}}</option>
             @endforeach
             @endif
           </select></div>
@@ -139,14 +139,18 @@
 
 
     
-
+    
         
         @if($movie_being_edited)
+
+     
           <div class="row lead">
             <div class="col-md-2">Date</div>
             <div class="col-md-3">Time</div>
             <div class="col-md-3">Movie Title</div>
             <div class="col-md-2"> Price</div>
+
+         
             <div class="col-md-1"></div>
          </div>
          <div class="row" style="margin-bottom: 100px">
@@ -205,7 +209,12 @@
          " name="movie_id" style="width: 100%">
           @if($available_movies_to_add)
           @foreach($available_movies_to_add as $movie)
-          <option value="{{$movie->id}}">{{$movie->title}}</option>
+          
+          <option value="{{$movie->id}}"  
+            @if ($movie->id == $movie_being_edited->movie_id)
+            selected="selected" 
+            @endif
+            >{{$movie->title}}</option>
           @endforeach
           @endif
         </select>

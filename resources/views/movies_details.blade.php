@@ -36,7 +36,7 @@
         <div class="modal-body">
 
           
-          <form id="form1" name="form1" method="post"action="{{url('show_movies_on_shedule')}}">
+          <form id="form1" name="form1" method="post"action="{{url('book_movie')}}">
             {{csrf_field()}}
             <div class="col-md-12"><div class="form-group">
               <label for="recipient-name" class="col-form-label">Movie Title:</label>
@@ -169,27 +169,31 @@
        </div>
         
         <h4>Showing on</h4>
-        <ul class="nav nav-pills" role="tablist">
+        <ul class="nav nav-pills " role="tablist">
 
 
         @if($dates_movie_is_showing_obj)
         @foreach($dates_movie_is_showing_obj as $row)
           <li class="nav-item">
-            <a class="nav-link" data-toggle="pill" href="#{{$row->format('l')}}">{{$row->format('l')}}</a>
+
+            <a class="days active btn btn-outline" href="#home-pills" data-toggle="tab" day="{{$row->format('l')}}">{{$row->format('l')}}</a>
           </li>
         @endforeach
         @endif
           
         </ul>
+
+         <!-- Nav tabs -->
+                           
           
         <!-- Tab panes -->
-        <div class="tab-content">
+        <div class="">
            @if($selected_movie_shedules)
            @foreach($selected_movie_shedules as $row)
-          <div id="{{$row->date->format('l')}}" class="container tab-pane fade"><br>
+          <div id="{{$row->date->format('l')}}" day="{{$row->date->format('l')}}" class="{{$row->date->format('l')}}  dates" ><br>
             
             <div class="row {{$row->date->format('l')}}" >
-              <div class="col-md-3 {{$row->date->format('l')}}">{{$row->date->format('l')}}</div>
+              <div class="col-md-3  {{$row->date->format('l')}}">{{$row->date->format('l')}}</div>
               <div class="col-md-3 {{$row->date->format('l')}}">{{$row->time}}</div>
               <div class="col-md-3 {{$row->date->format('l')}}"> {{$row->price}}</div>
               <div class="col-md-3  {{$row->date->format('l')}} select_option_div">
@@ -235,18 +239,20 @@
 <div class="clearfix"></div>
 
 <script type="text/javascript">
-  $(function() {
+  $(function() 
+  {
 
+             $(".dates").hide();
+             $( ".days" ).on('click', function() 
+             {
+              $(".dates").hide();
+              $("."+this.getAttribute("day")).show();
 
-        
-             $(".movies_show").hide();
-
-             var x = document.getElementsByClassName("date_chosen");
-             alert(x);
-
-
-
-             $( ".date_chosen" ).change(function() {
+             });
+             
+      
+             $( ".date_chosen" ).change(function() 
+             {
                var chosen_date = this.value;
                $(".movies_show").hide();
               $("."+chosen_date).show();

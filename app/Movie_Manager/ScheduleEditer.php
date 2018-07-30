@@ -446,8 +446,8 @@ class ScheduleEditer
            ->join('schedules','bookings.shedule_id','=','schedules.id')
            ->join('movies', 'schedules.movie_id', '=', 'movies.id')
            ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
-           ->orderBy('schedules.date','asc','schedules.time','desc')
-           ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','bookings.first_seat_option','bookings.number_of_seats','bookings.id','bookings.status')
+           ->orderBy('schedules.date','asc','schedules.time','asc')
+           ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','bookings.first_seat_option','bookings.number_of_seats','bookings.id','bookings.status','bookings.ticket_number')
             ->get()->toArray();        
     
 
@@ -558,21 +558,26 @@ class ScheduleEditer
         $number_booked = 0;
         $ticket_being_check = null;
         $status = 'Ticket does not exist';
-        $ticket = Bookings::find($request->id);
+        $ticket = Bookings::where('ticket_number',$request->id)
+                    ->orderBy('id','desc')
+                    ->first();
         
 
         if($ticket)
         {
+           
         $status = 'Ticket is exists';
         $number_booked = $ticket->number_of_seats; 
         $ticket_number = $ticket->ticket_number;
         
         //check if tcket is used
-        $ticket_being_check = Bookings::where('bookings.id','=',$request->id)
-                  ->join('schedules','bookings.shedule_id','=','schedules.id')
-                  ->where('bookings.status','=','activated')
-                  ->select('bookings.id','bookings.number_of_seats')
-                  ->get()->toArray();
+         $ticket_being_check = Bookings::where('ticket_number',$request->id)
+              ->join('schedules','bookings.shedule_id','=','schedules.id')
+              ->where('bookings.status','=','activated')
+              ->where('schedules.being_verified','=','1')  
+              ->select('bookings.id','bookings.number_of_seats')
+              ->get()->toArray();
+                  
         $status = $ticket->status;
         }
         

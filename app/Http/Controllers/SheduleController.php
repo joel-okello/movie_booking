@@ -92,6 +92,10 @@ class SheduleController extends Controller
     public function edit($id)
     {
 
+
+
+     
+        
         $data_of_schedules = ScheduleEditer::show_schedule_of_movies();
         $sheduledmovies = $data_of_schedules['sheduledmovies'];
         $movie_being_edited = Schedules::find($id);
@@ -357,7 +361,12 @@ class SheduleController extends Controller
 
 
 
-
+    public function start_checking($id)
+    {
+     $random_identifier = str_random(5);
+        dd("Request to start checking",$random_identifier);
+        redirect()->route('bouncer');
+    }
 
    
 

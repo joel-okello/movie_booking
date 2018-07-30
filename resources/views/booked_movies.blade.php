@@ -53,7 +53,7 @@
             <td>{{$row->title}}</td>
             <td>{{$row->date}}</td>
             <td>{{$row->time}}</td>
-            <td>{{$row->id}}</td>
+            <td>{{$row->ticket_number}}</td>
             <td>{{$row->number_of_seats}}</td>
             <td>{{$row->first_seat_option}}</td>
             <td>{{$row->status}}</td>

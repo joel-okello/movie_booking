@@ -39,6 +39,7 @@
           <th>Movie Title</th>
           <th>Movie Date</th>
           <th>Movie Time</th>
+          <th>Checking Status</th>
           
         </thead>
        
@@ -47,6 +48,7 @@
         <tr >
             <td>{{$row->title}}</td>
             <td>{{$row->date}}</td>
+            <td>{{$row->time}}</td>
             <td>{{$row->time}}</td>
             
 
