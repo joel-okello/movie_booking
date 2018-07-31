@@ -70,7 +70,7 @@
           
             <div class="col-md-12">
               <label for="recipient-name" class="col-form-label">Seat Option One:</label>
-          <select class="select2 form-control form-control-lg " name="first_seat_option" style="width: 100%; height: 100%">
+          <select class="select2 form-control form-control-lg first_seat_option" name="first_seat_option" style="width: 100%; height: 100%">
             <option value="">Select First Option</option>
             <optgroup label="Back">
             <option value="LeatBack">Leaf Back</option>
@@ -90,7 +90,7 @@
       </div>
      <div class="col-md-12">
               <label for="recipient-name" class="col-form-label">Seat Option Two:</label>
-          <select class="select2 form-control form-control-lg " name="second_seat_option" style="width: 100%; height: 100%">
+          <select class="select2 form-control form-control-lg second_seat_option" name="second_seat_option" style="width: 100%; height: 100%">
           <option value="">Select Second Option</option>
           <optgroup label="Back">
            <option value="LeatBack">Leat Back</option>
@@ -141,9 +141,10 @@
 
 
 
-
+      
 
         <div class="row">
+
           <div class="col-md-12"> 
             @if(count($errors)>0)
             <div class="alert alert-danger alert-dismissable">
@@ -169,15 +170,17 @@
        </div>
         
         <h4>Showing on</h4>
-        <ul class="nav nav-pills " role="tablist">
+         
+        <ul class="nav nav-tabs " role="tablist">
 
 
         @if($dates_movie_is_showing_obj)
         @foreach($dates_movie_is_showing_obj as $row)
           <li class="nav-item">
 
-            <a class="days active btn btn-outline" href="#home-pills" data-toggle="tab" day="{{$row->format('l')}}">{{$row->format('l')}}</a>
+            <a class="nav-link days" href="#home-pills" data-toggle="tab" day="{{$row->format('l')}}">{{$row->format('l')}}</a>
           </li>
+          
         @endforeach
         @endif
           
@@ -243,6 +246,13 @@
   {
 
              $(".dates").hide();
+             if($(".days").length){
+
+        
+              $("."+$(".days").first().attr("day")).show();
+
+             }
+             
              $( ".days" ).on('click', function() 
              {
               $(".dates").hide();
@@ -258,11 +268,33 @@
               $("."+chosen_date).show();
               
               });
+  
+
+                $("#form1").submit(function(event){
+                var seat1 = $(".first_seat_option").val();
+                var seat2 = $(".second_seat_option").val();
+                
+                if(seat1&&seat2)
+                {
+                  alert(($(".second_seat_option").val()));
+                }
+                else
+                {
+                  event.preventDefault();
+                  alert("Select seat options");
+                }
+                
+                
+                });
 
 
 
 
   });
+
+  $(document).ready(function(){
+    
+});
 
 </script>
 
