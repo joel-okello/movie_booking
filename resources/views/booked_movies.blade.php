@@ -38,9 +38,10 @@
       <th >Date</th>
       <th>StartingTime </th>
       <th>Ticket Number</th>
-      <th>Number of Booked Seats</th>
+      <th>Booked Seats</th>
       <th>Sitting Position</th>
       <th>Ticket Status</th>
+      <th>Tickets</th>
 
       
       
@@ -50,13 +51,15 @@
 @if($booked_movies)
 @foreach($booked_movies as $row)
         <tr >
+            
             <td>{{$row->title}}</td>
             <td>{{$row->date}}</td>
             <td>{{$row->time}}</td>
             <td>{{$row->ticket_number}}</td>
             <td>{{$row->number_of_seats}}</td>
-            <td>{{$row->first_seat_option}}</td>
+            <td>{{$row->first_seat_option." \n ".$row->second_seat_option}}</td>
             <td>{{$row->status}}</td>
+            <td><a href="{{url('show_ticket')}}">View Tickets</a></td>
             
 
           </tr>

@@ -447,11 +447,27 @@ class ScheduleEditer
            ->join('movies', 'schedules.movie_id', '=', 'movies.id')
            ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
            ->orderBy('schedules.date','asc','schedules.time','asc')
-           ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','bookings.first_seat_option','bookings.number_of_seats','bookings.id','bookings.status','bookings.ticket_number')
+           ->select('movies.title', 'schedules.date', 'schedules.time','schedules.price','bookings.first_seat_option','bookings.number_of_seats','bookings.id','bookings.status','bookings.ticket_number','bookings.second_seat_option')
             ->get()->toArray();        
     
 
     return $booked_movies;      
+
+
+    }
+
+
+    public static function number_of_booked_movies()
+    {
+        
+        $number_of_booked_movies = DB::table('bookings')->where('user_id', Auth::User()->id)
+           ->join('schedules','bookings.shedule_id','=','schedules.id')
+           ->join('movies', 'schedules.movie_id', '=', 'movies.id')
+           ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
+           ->count();        
+    
+
+    return $number_of_booked_movies;      
 
 
     }

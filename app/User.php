@@ -5,6 +5,7 @@ use Auth;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Movie_Manager\ScheduleEditer;
 
 class User extends Authenticatable
 {
@@ -43,6 +44,16 @@ class User extends Authenticatable
          return true;   
         }
         
+    }
+
+    public static function has_booked_movies()
+    {
+
+ 
+       
+     return ScheduleEditer::number_of_booked_movies();
+
+
     }
 
     

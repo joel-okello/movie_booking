@@ -7,6 +7,8 @@ use App\Schedules;
 use DateTime;
 use Auth;
 use App\Movie_Manager\BookingsEditer;
+use App\Movie_Manager\ScheduleEditer;
+use CodeItNow\BarcodeBundle\Utils\QrCode;
 
 class BookingController extends Controller
 {
@@ -15,6 +17,11 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         dd("ube");
@@ -55,9 +62,36 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show_ticket($id = null )
     {
-        //
+
+        //get all tickets
+        //get info about the ticket
+        //generate qr codes for each
+        //return generates qr codes
+        $qrCodes = [];
+
+        $booked_movies = ScheduleEditer::get_user_booked_movies(); 
+       
+        foreach ($booked_movies as $booked_movie) {
+                $qrCode = new QrCode();
+                $qrCode
+                ->setText($booked_movie->ticket_number .' '.$booked_movie->date. ' '.$booked_movie->time .' '.$booked_movie->status)
+                ->setSize(300)
+                ->setPadding(10)
+                ->setErrorCorrection('high')
+                ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+                ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+                ->setLabel($booked_movie->title)
+                ->setLabelFontSize(16)
+                ->setImageType(QrCode::IMAGE_TYPE_PNG);      
+                array_push($qrCodes, $qrCode);
+
+        }        
+
+
+
+        return view('ticket_shower',compact('qrCodes','booked_movies'));
     }
 
     /**

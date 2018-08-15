@@ -36,7 +36,7 @@
         <div class="modal-body">
 
           
-          <form id="form1" name="form1" method="post"action="{{url('book_movie')}}">
+          <form id="form1" name="form1" method="get" action="{{url('book_movie')}}">
             {{csrf_field()}}
             <div class="col-md-12"><div class="form-group">
               <label for="recipient-name" class="col-form-label">Movie Title:</label>
@@ -169,7 +169,7 @@
         <h2>{{$selected_movie_data['title']}}</h2>
        </div>
         
-        <h4>Showing on</h4>
+       
          
         <ul class="nav nav-tabs " role="tablist">
 
@@ -190,20 +190,20 @@
                            
           
         <!-- Tab panes -->
-        <div class="">
+        <div class="white-text">
            @if($selected_movie_shedules)
            @foreach($selected_movie_shedules as $row)
           <div id="{{$row->date->format('l')}}" day="{{$row->date->format('l')}}" class="{{$row->date->format('l')}}  dates" ><br>
             
-            <div class="row {{$row->date->format('l')}}" >
-              <div class="col-md-3  {{$row->date->format('l')}}">{{$row->date->format('l')}}</div>
-              <div class="col-md-3 {{$row->date->format('l')}}">{{$row->time}}</div>
-              <div class="col-md-3 {{$row->date->format('l')}}"> {{$row->price}}</div>
-              <div class="col-md-3  {{$row->date->format('l')}} select_option_div">
+            <div class="row {{$row->date->format('l')}}   " >
+              <div class="col-md-3  {{$row->date->format('l')}} white-text d-flex justify-content-center">{{$row->date->format('l d-m')}}</div>
+              <div class="col-md-3 {{$row->date->format('l')}} white-text d-flex justify-content-center">{{$row->time}}</div>
+              <div class="col-md-3 {{$row->date->format('l')}} white-text d-flex justify-content-center"> {{$row->price}}</div>
+              <div class="col-md-3  {{$row->date->format('l')}} white-text d-flex select_option_div justify-content-center">
                   <button 
                   type="button" shedule_id ="{{$row->id}}" 
-                  class="btn btn-light select_shedule_for_movie">
-                    Book Movie
+                  class=" select_shedule_for_movie btn btn-primary ">
+                    Buy Ticket
                   </button>
               </div>      
             </div>
@@ -250,6 +250,7 @@
 
         
               $("."+$(".days").first().attr("day")).show();
+              $(".days").first().addClass("active");
 
              }
              

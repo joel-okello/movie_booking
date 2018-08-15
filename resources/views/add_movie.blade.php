@@ -6,25 +6,26 @@
 
 <div class="container">
   <div class="row">
-<div class="jumbotron col-md-12">
-    <h1>Manage Movie Library</h1>      
-  </div>     
-</div>
+    <div class="jumbotron col-md-12">
+        <h1>Manage Movie Library</h1>      
+    </div>     
+  </div>
 <div class="row">
   <div class="col-md-12"> 
     @if(count($errors)>0)
-    <div class="alert alert-danger alert-dismissable">
-      <ul>
-        @foreach($errors->all() as $error)
-        <li>{{$error}}</li>
-        @endforeach
-      </ul>
 
-    </div>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  
+</div>
+    
     @endif
     @if(\Session::has('success'))
     <div class="alert alert-success alert-dismissable">
       {{(\Session::get('success'))}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
     </div>
     @endif
     </div>
@@ -182,6 +183,58 @@
 
 
  @if($movie)
+
+ <div class="modal fade center" id="exampleModals1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+        Select your preferecences</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="form3" enctype="multipart/form-data" action="{{action('MoviesController@update',$id)}}">
+    {{csrf_field()}}
+            <input type="hidden" name="_method" value="PATCH">
+      
+             <div class="col-md-12"><br>
+               
+             <label >Movie Title</label>
+                   
+                 <input type="text" class="form-control" name="title" value="{{$movie->title}}">
+            </div>
+            <div class="col-md-12"><br>
+                
+                <label >Movie Type</label> 
+                 <select name="type" style="width:100%">
+                   <option value="Love" @if($movie->type=='Love'){{'selected'}}@endif>Love</option>
+                   <option value="Action" @if($movie->type=='Action'){{'selected'}}@endif>Action</option>
+                   <option value="Horror" @if($movie->type=='Horror'){{'selected'}}@endif>Horror</option>
+                   <option value="Adventure" @if($movie->type=='Adventure'){{'selected'}}@endif>Adventure</option>
+                </select> 
+                 </div>
+             <div class="col-md-12"><br>
+                <label >Baner Image </label><br>
+                <a href="{{Storage::url($movie->image_location)}}">View</a><input type="file" name="file" id="fileToUpload" value="">
+             </div>
+             <div class="col-md-12"><br>
+             <button class="btn btn-primary"type="submit" value="Submit">Update Movie</button>
+             </div>
+              
+       </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        <button class="btn btn-primary"type="submit" form="form3" value="Submit">Save Movie</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
  <div class="row">
   <div class="col-md-8"> 
     <h5 >
@@ -200,10 +253,10 @@
                 
                 <label >Movie Type</label> 
                  <select name="type" style="width:100%">
-                   <option value="Love">Love</option>
-                   <option value="Action">Action</option>
-                   <option value="Horror">Horror</option>
-                   <option value="Adventure">Adventure</option>
+                   <option value="Love" @if($movie->type=='Love'){{'selected'}}@endif>Love</option>
+                   <option value="Action" @if($movie->type=='Action'){{'selected'}}@endif>Action</option>
+                   <option value="Horror" @if($movie->type=='Horror'){{'selected'}}@endif>Horror</option>
+                   <option value="Adventure" @if($movie->type=='Adventure'){{'selected'}}@endif>Adventure</option>
                 </select> 
                  </div>
              <div class="col-md-12"><br>
@@ -290,7 +343,7 @@
 
    $( document ).ready(function() 
  {
-   
+   $('#exampleModals1').modal();
 
         $(".adding_to_schedule" ).on( "click", function() 
     {
@@ -309,6 +362,7 @@
     
       
       $('#schedule_button_clicked').modal();
+      
       
       
 

@@ -4,21 +4,42 @@
 
     <!-- Page Content -->
 <div class="container">
-  <div class="row md-12">
-  <div class="jumbotron col-md-12">
-      <h1>Book now get off the hustle</h1>       
+  <div class="row jumbotron mt-2 ">
+ 
+    <div class="col-md-6 ">
+      <h3>Book now get off the hustle</h3>       
       <form  action="{{url('show_serched_movies_on_shedule')}}" method="post">
            {{csrf_field()}}
-           <div class="col-md-6 col-md-offset-3">
+           
             <div class="input-group input-group-lg">
-              <input class="form-control" type="text" placeholder="Search..">
+              <input class="form-control" type="text" placeholder="Search title">
      
-              <button type="submit" class="btn btn-primary">Find</button>
+              <button type="submit" class="btn btn-primary">Search</button>
             </div>
-          </div>
+          
         </form>
+        </div>
+     @auth
+        <div class="col-md-6 ">
+          <span float="right">
+          @if(App\User::has_booked_movies())
+          <strong></strong>
+
+    
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>You have some Tickets</strong> 
+      Check <a href="{{url('show_ticket')}}">here </a>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+          @endif
+          </span>
+        </div>
+
+        @endauth
     </div>     
-  </div>
+ 
 
         
          
@@ -65,11 +86,15 @@
             {{$date->format('l').". "}}
             @endforeach
         </p>
+
+        <p>
+          More Details
+        </p>
         <!-- Link -->
-        <a href="{{action('SheduleController@view_details',$row->id)}}" class="white-text d-flex justify-content-end">
-          <h5 >
-              Details 
-          </h5>
+        <a href="{{action('SheduleController@view_details',$row->id)}}" class="white-text d-flex justify-content-center btn btn-primary">
+          
+              Book Ticket
+         
         </a>
 
     </div>

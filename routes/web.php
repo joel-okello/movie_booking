@@ -11,13 +11,28 @@
 |
 */
 
+
+Route::get('show_ticket','BookingController@show_ticket'); 
 Route::get('check_forms',function(){
 	return View('form');
 });
 
+
+
+Route::get('/servicepoint',function(){
+	return View('service_add');
+});
+
+Route::post('login',function(){
+	return 'troubled man';
+});
 Route::get('check_forms1',function(){
 	return View('forms');
 });
+Route::post('login','Auth.SheduleController@check_form');
+
+	
+
 Route::get('check_form','SheduleController@check_form')->name('check_form');
 Route::get('check_form1','SheduleController@check_form')->name('check_form1');
 
@@ -67,7 +82,7 @@ Route::post('seats_option', 'BookingController@store');
 
 
 
-Route::post('book_movie', 'BookingController@store');
+Route::get('book_movie', 'BookingController@store');
 
 Route::get('/show_movies_on_shedule/{id}', 'SheduleController@view_details');
 Route::get('/home', 'HomeController@index')->name('home');
