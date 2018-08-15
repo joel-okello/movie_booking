@@ -88,7 +88,8 @@
         </p>
 
         <p>
-          More Details
+          <a href="#">More Details</a>
+          
         </p>
         <!-- Link -->
         <a href="{{action('SheduleController@view_details',$row->id)}}" class="white-text d-flex justify-content-center btn btn-primary">

@@ -123,7 +123,12 @@ class SheduleController extends Controller
     }
 
     public function view_details($id)
-    {
+    {  $user_is_logged_in = Auth::check();
+
+        if(!$user_is_logged_in)
+        {
+          session(['message' => 'You must first log in']);
+        }
         $shedulebmgr =  new ScheduleEditer();
         $selected_movie_details = $shedulebmgr->get_details_for_movie($id);
 
@@ -176,6 +181,8 @@ class SheduleController extends Controller
    //image based scheduled for users on index.blade;
     public function show_movies_on_shedule()
     {
+
+
          
       $shedulebmgr =  new ScheduleEditer();
       $shedule_to_edit = null;

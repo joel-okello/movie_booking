@@ -23,12 +23,11 @@ Route::get('/servicepoint',function(){
 	return View('service_add');
 });
 
-Route::post('login',function(){
-	return 'troubled man';
-});
+
 Route::get('check_forms1',function(){
 	return View('forms');
 });
+
 Route::post('login','Auth.SheduleController@check_form');
 
 	
@@ -60,7 +59,7 @@ Route::get('verify_ticket','SheduleController@verify_ticket');
 
 //Route::get('retrieve_schedule_info','SheduleController@retrieve_schedule_info');
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'SheduleController@show_movies_on_shedule')->name('home');
 
 
 Route::get('qr-code', function () 

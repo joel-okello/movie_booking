@@ -13,15 +13,23 @@
     <!-- Bootstrap core CSS -->
 
 
-    <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <script src="{{ asset('js/jquery-min.js') }}"></script>
-    <script src="{{ asset('select2/js/select2.min.js') }}"></script>
-    <script src="{{ asset('js/zebra_datepicker.min.js') }}"></script>
- 
-     <script src="{{ asset('js/popper.js/1.14.3/umd/popper.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-   
+     
+  <link rel="stylesheet" href="{{ asset('css_js/css/zebra_datepicker.min.css') }}">
+<link href="{{ asset('css_js/select2/css/select2.min.css') }}"rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css_js/css/bootstrap.min.css">
+  <script src="{{ asset('css_js/js/jquery-min.js') }}"></script>
+   <script src="{{ asset('css_js/js/popper.min.js')}}"></script>
+    <script src="{{ asset('css_js/js/bootstrap.min.js') }}"></script>
+
+
+
+    <script src="{{ asset('css_js/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('css_js/js/zebra_datepicker.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js "></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
 
     
@@ -122,9 +130,6 @@
 
 
 
-
-<link rel="stylesheet" href="{{ asset('css/zebra_datepicker.min.css') }}">
-<link href="{{ asset('select2/css/select2.min.css') }}" rel="stylesheet" />
 
 
 <script type="text/javascript">
