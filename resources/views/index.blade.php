@@ -8,16 +8,26 @@
  
     <div class="col-md-6 ">
       <h3>Book now get off the hustle</h3>       
-      <form  action="{{url('show_serched_movies_on_shedule')}}" method="post">
+      <form  action="{{url('show_searched_movies_on_shedule')}}" method="post" class="needs-validation" novalidate>
            {{csrf_field()}}
            
             <div class="input-group input-group-lg">
-              <input class="form-control" type="text" placeholder="Search title">
-     
+              <input class="form-control" type="text" name="search_query" @if(Session::has('search_query')) value="{{Session::pull('search_query')}}" @endif  placeholder="Search title">
+              
               <button type="submit" class="btn btn-primary">Search</button>
             </div>
+            
+            
+           
           
         </form>
+        @if(Session::has('search_failed'))
+            <div class="alert alert-danger alert-dismissible fade show">{{Session::pull('search_failed')}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @endif
         </div>
      @auth
         <div class="col-md-6 ">

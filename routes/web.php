@@ -13,6 +13,8 @@
 
 
 Route::get('show_ticket','BookingController@show_ticket'); 
+
+Route::post('show_searched_movies_on_shedule','SheduleController@show_searched_movies_on_shedule'); 
 Route::get('check_forms',function(){
 	return View('form');
 });
@@ -93,6 +95,8 @@ Route::get('bouncer', 'SheduleController@show_bouncer_interface')->name('bouncer
 Route::resource('schedules', 'SheduleController');
 Route::resource('add_movies', 'MoviesController');
 Route::get('/show_schedule', 'SheduleController@show_schedule')->name('show_schedule');
-Route::get('/show_movies_on_shedule', 'SheduleController@show_movies_on_shedule')->name('show_movies_on_shedule');
+Route::get('/show_schedule/{search_query?}', 'SheduleController@show_movies_on_shedule')->name('show_movies_on_shedule');
+Route::get('/show_movies_on_shedule', 'SheduleController@show_movies_on_shedule')->name('show_movies');
+
 
 

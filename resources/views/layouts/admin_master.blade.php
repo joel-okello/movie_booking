@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="css_js/css/bootstrap.min.css">
   <script src="{{ asset('css_js/js/jquery-min.js') }}"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="{{ asset('vendorbootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('css_js/js//bootstrap.min.js') }}"></script>
 
 
 

@@ -179,19 +179,34 @@ class SheduleController extends Controller
     }
 
    //image based scheduled for users on index.blade;
-    public function show_movies_on_shedule()
+
+
+    public function  show_searched_movies_on_shedule(Request $request)
+    {
+        
+         return redirect()->route('show_movies_on_shedule',$request->get('search_query'));
+
+
+    }
+
+    public function show_movies_on_shedule($search_query = null)
     {
 
 
-         
+    
       $shedulebmgr =  new ScheduleEditer();
       $shedule_to_edit = null;
     
-      $sheduledmovies = $shedulebmgr->show_movies_on_shedule();
+      $sheduledmovies = $shedulebmgr->show_movies_on_shedule($search_query);
+
+
      
             
       return view('index',compact('shedule_to_edit','sheduledmovies'));
     }
+
+
+
 
 
 
@@ -245,13 +260,13 @@ class SheduleController extends Controller
     $movies = $summary_data['movies'];
     $schedule_for_dates = $summary_data['showing_status_per_movie'];
     $all_dates_in_range = $summary_data['all_dates_in_range'];
-
+    $shows_in_the_days  = $summary_data['shows_in_that_day'];
     if(User::is_admin())
       { 
-        return view('summary_shedule_admin',compact('schedule_for_dates','movies','all_dates_in_range'));
+        return view('summary_shedule_admin',compact('schedule_for_dates','movies','all_dates_in_range','shows_in_the_days'));
       }
    
-    return view('summary_shedule',compact('schedule_for_dates','movies','all_dates_in_range'));
+    return view('summary_shedule',compact('schedule_for_dates','movies','all_dates_in_range','shows_in_the_days'));
 
     }
 

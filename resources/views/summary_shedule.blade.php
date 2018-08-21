@@ -29,6 +29,7 @@
       </th>
       @foreach($all_dates_in_range as $key_for_date => $date)
       @if($schedule_for_dates[$key][$key_for_date])
+      {{dd($schedule_for_dates)}}
       
       <td ><button class="btn btn-link movie_that_day" date="{{$all_dates_in_range[$key_for_date]->format('Y-m-d')}}" movie="{{$movie->id}}">{{$all_dates_in_range[$key_for_date]->format('l')}} </button></td>
       

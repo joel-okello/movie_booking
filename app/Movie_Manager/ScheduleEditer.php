@@ -21,16 +21,43 @@ class ScheduleEditer
      */
 
 
-    public function show_movies_on_shedule()
+    public function show_movies_on_shedule($search_query = null)
     {
-
+        $sheduledmovies = null;
+        if($search_query != null)
+        {
+        //add search query to session
+        session()->flash('search_query', $search_query);
         $sheduledmovies = DB::table('movies')->distinct('movie_id')
-            ->where('movies.deleted','=','no')
-            ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
-            ->join('schedules', 'schedules.movie_id', '=', 'movies.id')
-            ->select( 'movies.id')
-            ->groupBy('movies.id')
-            ->get()->toArray();
+                ->where('movies.deleted','=','no')
+                ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
+                ->where('movies.title','like','%'.$search_query.'%')
+                ->join('schedules', 'schedules.movie_id', '=', 'movies.id')
+                ->select( 'movies.id')
+                ->groupBy('movies.id')
+                ->get()->toArray();
+        }
+//do not return empty page
+        if($sheduledmovies==null && $search_query != null)
+        {   
+            $search_query = "";
+            session()->flash('search_failed', "movie not found, did you enter the right title?");
+        }
+
+
+        if($search_query == null)
+            $sheduledmovies = DB::table('movies')->distinct('movie_id')
+                ->where('movies.deleted','=','no')
+                ->whereDate('schedules.date', '>=', Carbon::today()->toDateString())
+                ->join('schedules', 'schedules.movie_id', '=', 'movies.id')
+                ->select( 'movies.id')
+                ->groupBy('movies.id')
+                ->get()->toArray();
+       
+            
+
+
+
         
             foreach($sheduledmovies as $row){
             $row->dates =  $this->get_dates_for_movies($row->id);
@@ -55,13 +82,19 @@ class ScheduleEditer
 
      public function get_schedule_time_for_movie_on_a_date($movie_id,$date)
     {
-
+        
+        
         $sheduled_times = DB::table('schedules')
-            ->whereDate('schedules.date','=',$date)
+            ->whereDate('schedules.date','=',$date->format('Y-m-d'))
             ->where('schedules.movie_id','=',$movie_id)
             ->select( 'schedules.id','schedules.time','schedules.price','schedules.date','schedules.movie_id')
             ->orderBy('schedules.time', 'asc')
             ->get()->toArray();
+
+           
+
+   
+
             return $sheduled_times;
     }
 
@@ -232,6 +265,7 @@ class ScheduleEditer
 
          
      $schedule_for_dates = [];
+     $shows_in_that_day = [];
      $movies_array = [];
      foreach ($movies as $key => $movie ) 
      {   
@@ -240,8 +274,11 @@ class ScheduleEditer
         foreach ($all_dates_in_range as $keys => $date) 
         {
            
-
+         
          $schedule_for_dates[$key][$keys] = $this->check_if_there_exists_given_movie_on_date($date,$movie->id);
+         $shows_in_that_day[$key][$keys]= $this->get_schedule_time_for_movie_on_a_date($movie->id,$date);
+
+     
         }
 
 
@@ -249,10 +286,14 @@ class ScheduleEditer
          
       }
 
-      $filtered_data = $this->remove_movies_that_wont_be_shown($movies,$schedule_for_dates);
+     
+     
+
+      $filtered_data = $this->remove_movies_that_wont_be_shown($movies,$schedule_for_dates,$shows_in_that_day);
       $schedule_for_dates = $filtered_data['shedule_for_movies']; 
       $movies = $filtered_data['movies_array'];
-
+      $shows_in_that_day = $filtered_data['shows_in_the_days'];
+   
       
 
       
@@ -262,6 +303,7 @@ class ScheduleEditer
       return [ 'showing_status_per_movie' => $schedule_for_dates,
                  'movies'                 => $movies,
                  'all_dates_in_range'     => $all_dates_in_range,
+                 'shows_in_that_day'      => $shows_in_that_day,
 
                 ];
 
@@ -269,7 +311,7 @@ class ScheduleEditer
 
 
 
-    public function remove_movies_that_wont_be_shown($movies_array,$shedule_for_movies)
+    public function remove_movies_that_wont_be_shown($movies_array,$shedule_for_movies,$shows_in_the_days)
     {
 
        
@@ -298,11 +340,13 @@ class ScheduleEditer
 
     array_splice($movies_array,$value-$counter, 1);
     array_splice($shedule_for_movies,$value-$counter,1);
+    array_splice($shows_in_the_days,$value-$counter,1);
     $counter++;
     }
 
      return [ 'movies_array'=>$movies_array,
               'shedule_for_movies' =>$shedule_for_movies,
+              'shows_in_the_days' => $shows_in_the_days,
                 ];
 
     }

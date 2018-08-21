@@ -12,7 +12,11 @@
   </div>
 <div class="row">
   <div class="col-md-12"> 
+
     @if(count($errors)>0)
+    {{dd($errors->get('title'))}}
+
+
 
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
   <strong>Holy guacamole!</strong> You should check in on some of those fields below.
